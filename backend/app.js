@@ -1,5 +1,5 @@
 const express = require('express');
-const ErrorHandler = require('./utils/ErrorHandler');
+const errorHandler = require('./middleware/error.js');
 const app = express();
 const cookieParser = require('cookie-parser');
 
@@ -9,6 +9,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Custom error handler middleware
-app.use(ErrorHandler);
+app.use(errorHandler);
 
 module.exports = app;
