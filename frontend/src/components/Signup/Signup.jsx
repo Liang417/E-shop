@@ -3,19 +3,39 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import styles from '../../styles/styles';
 import { Link } from 'react-router-dom';
 import { RxAvatar } from 'react-icons/rx';
+import { apiURL } from '../../apiConfig.js';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const [visible, setVisible] = useState('');
-  const [avatar, setAvatar] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [avatar, setAvatar] = useState(null);
 
-  const handlerSubmit = () => {
-    console.log('fff');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+
+    const newForm = new FormData();
+
+    newForm.append('file', avatar);
+    newForm.append('name', name);
+    newForm.append('email', email);
+    newForm.append('password', password);
+
+    axios
+      .post(`${apiURL}/user/register`, newForm, config)
+      .then((res) => {
+        toast.success(res.data.message);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message);
+      });
   };
 
-  const handleFileUpload = (e) => {
+  const handleInputFileChange = (e) => {
     const file = e.target.files[0];
     setAvatar(file);
   };
@@ -29,7 +49,7 @@ const Signup = () => {
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Full Name
@@ -117,8 +137,9 @@ const Signup = () => {
                     type="file"
                     name="avatar"
                     id="file-input"
+                    required
                     accept=".jpg,.jpeg,.png"
-                    onChange={handleFileUpload}
+                    onChange={handleInputFileChange}
                     className="sr-only"
                   />
                 </label>

@@ -6,26 +6,26 @@ module.exports = (err, req, res, next) => {
 
   // wrong mongo id error
   if (err.name === 'CastError') {
-    const message = `Resources not found with this id. Invalid ${err.path}`;
-    err = new ErrorHandler(message, 400);
+    err.message = `Resources not found with this id. Invalid ${err.path}`;
+    err.status = 404;
   }
 
   // duplicate key error
   if (err.code === 11000) {
-    const message = `Duplicate key ${Object.keys(err.keyValue)} Entered`;
-    err = new ErrorHandler(message, 400);
+    err.message = `Duplicate key '${Object.keys(err.keyValue)}' Entered`;
+    err.status = 409;
   }
 
   // wrong jwt error
   if (err.name === 'JsonWebTokenError') {
-    const message = `Your url is invalid please try again later`;
-    err = new ErrorHandler(message, 400);
+    err.message = `Your url is invalid`;
+    err.status = 400;
   }
 
   // jwt expired error
   if (err.name === 'TokenExpiredError') {
-    const message = `Your url is expired please try again later`;
-    err = new ErrorHandler(message, 400);
+    err.message = `Your token has expired, please register again`;
+    err.status = 401;
   }
 
   res.status(err.statusCode).json({

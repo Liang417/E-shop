@@ -10,7 +10,7 @@ process.on('uncaughtException', (err) => {
 // Configuration
 if (process.env.NODE_ENV !== 'PRODUCTION') {
   // Load environment variables from .env file in development mode
-  require('dotenv').config({ path: 'backend/.env' });
+  require('dotenv').config({ path: 'backend/config/.env' });
 }
 
 // Connect to MongoDB
