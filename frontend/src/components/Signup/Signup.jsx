@@ -26,7 +26,7 @@ const Signup = () => {
     newForm.append('password', password);
 
     axios
-      .post(`${apiURL}/user/register`, newForm, config)
+      .post(`${apiURL}/user/signup`, newForm, config)
       .then((res) => {
         toast.success(res.data.message);
       })

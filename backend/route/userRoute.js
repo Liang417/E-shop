@@ -1,10 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const upload = require('../config/multer.js');
-const { createUser, activationUser } = require('../controller/userController.js');
+const upload = require('../middleware/multer.js');
+const { isAuthenticated } = require('../middleware/auth.js');
+const {
+  createUser,
+  sendAuthEmail,
+  loginUser,
+  getUser,
+} = require('../controller/userController.js');
 
-// create User
-router.post('/register', upload.single('file'), createUser);
-// activation User
-router.post('/activation', activationUser);
+// Send an activation email to user
+router.post('/signup', upload.single('file'), sendAuthEmail);
+// Create and activate User
+router.post('/create', createUser);
+// Login User
+router.post('/login', loginUser);
+// Get User
+router.get('/getUser', isAuthenticated, getUser);
+
 module.exports = router;

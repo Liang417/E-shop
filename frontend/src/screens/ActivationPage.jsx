@@ -12,9 +12,10 @@ const ActivationPage = () => {
     if (activation_token) {
       const sendRequest = async () => {
         await axios
-          .post(`${apiURL}/user/activation`, { activation_token })
+          .post(`${apiURL}/user/create`, { activation_token })
           .then((res) => {
-            toast.success("Your account has been created successfully!");
+            console.log(res);
+            toast.success('Your account has been created successfully!');
           })
           .catch((err) => {
             toast.error(err.response.data.message);
