@@ -8,8 +8,11 @@ import { BiMenuAltLeft } from 'react-icons/bi';
 import { CgProfile } from 'react-icons/cg';
 import DropDown from './DropDown.jsx';
 import Navbar from './Navbar.jsx';
+import { useSelector } from 'react-redux';
+import { backendURL } from '../../apiConfig';
 
-const Header = ({ activeHeading }) => {
+const Header = ({ activeHeading, category }) => {
+  const { isAuthenticated, user } = useSelector((state) => state.user);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchData, setSearchData] = useState(null);
   const [active, setActive] = useState(false);
@@ -114,7 +117,7 @@ const Header = ({ activeHeading }) => {
             <span
               className={`h-[100%] w-full flex justify-between items-center pl-10 bg-white font-sans text-lg font-[500] select-none rounded-t-md `}
             >
-              All Categories
+              {category ? `${category}` : 'All Categories'}
             </span>
             <IoIosArrowDown size={20} className="absolute right-2 top-4 cursor-pointer" />
             {dropDown ? (
@@ -145,9 +148,19 @@ const Header = ({ activeHeading }) => {
             </div>
             <div className={`${styles.normalFlex}`}>
               <div className="relative cursor-pointer mr-[15px]">
-                <Link to="/login">
-                  <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
-                </Link>
+                {isAuthenticated ? (
+                  <Link to="/profile">
+                    <img
+                      src={`${backendURL}${user.avatar}`}
+                      alt=""
+                      className="w-[35px] h-[35px] rounded-full"
+                    />
+                  </Link>
+                ) : (
+                  <Link to="/login">
+                    <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
+                  </Link>
+                )}
               </div>
             </div>
           </div>
