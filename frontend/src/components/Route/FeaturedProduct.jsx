@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../../styles/styles';
 import { productData } from '../../static/data';
-import ProductCard from '../ProductCard/ProductCard';
+import ProductCard from '../Product/ProductCard';
 
 const FeaturedProduct = () => {
   return (

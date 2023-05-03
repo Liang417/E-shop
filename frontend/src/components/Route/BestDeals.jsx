@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../../styles/styles';
-import ProductCard from '../ProductCard/ProductCard.jsx';
+import ProductCard from '../Product/ProductCard.jsx';
 import { productData } from '../../static/data';
 
 const BestDeals = () => {

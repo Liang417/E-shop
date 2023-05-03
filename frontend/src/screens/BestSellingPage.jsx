@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Footer from '../components/Layout/Footer';
 import Header from '../components/Layout/Header';
 import styles from '../styles/styles';
-import ProductCard from '../components/ProductCard/ProductCard';
+import ProductCard from '../components/Product/ProductCard';
 import { productData } from '../static/data';
 
 const BestSellingPage = () => {
