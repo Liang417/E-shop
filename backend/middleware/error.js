@@ -27,8 +27,8 @@ module.exports = (err, req, res, next) => {
     err.message = `Your token has expired, please register again`;
     err.status = 401;
   }
-
-  res.status(err.statusCode).json({
+  
+  res.status(err.status).json({
     success: false,
     message: err.message,
   });

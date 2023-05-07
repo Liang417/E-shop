@@ -11,35 +11,75 @@ import {
   EventPage,
   FAQPage,
   ProductDetailsPage,
+  ProfilePage,
+  CheckoutPage,
+  ShopSignupPage,
+  ShopActivationPage,
+  ShopLoginPage,
+  ShopHomePage,
 } from './routes/Routes.js';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux';
 import { loadUser } from './redux/userSlice';
+import { loadSeller } from './redux/sellerSlice';
+import { UserProtectedRoute, ShopProtectedRoute } from './routes/ProtectedRoute';
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(loadUser());
+    dispatch(loadSeller());
   }, []);
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />}></Route>
-        <Route path="/login" element={<LoginPage />}></Route>
-        <Route path="/sign-up" element={<SignupPage />}></Route>
-        <Route path="/activation/:activation_token" element={<ActivationPage />} />
+        <Route path="/" element={<HomePage />}></Route>      
         <Route path="/products" element={<ProductPage />} />
         <Route path="/product/:id" element={<ProductDetailsPage />} />
         <Route path="/best-selling" element={<BestSellingPage />} />
         <Route path="/events" element={<EventPage />} />
         <Route path="/FAQ" element={<FAQPage />} />
+
+        {/* user routes */}
+        <Route path="/user/login" element={<LoginPage />}></Route>
+        <Route path="/user/sign-up" element={<SignupPage />}></Route>
+        <Route path="/user/activation/:activation_token" element={<ActivationPage />} />
+        <Route
+          path="/user/profile"
+          element={
+            <UserProtectedRoute>
+              <ProfilePage />
+            </UserProtectedRoute>
+          }
+        />
+        <Route
+          path="/checkout"
+          element={
+            <UserProtectedRoute>
+              <CheckoutPage />
+            </UserProtectedRoute>
+          }
+        />
+
+        {/* shop routes */}
+        <Route path="/shop/sign-up" element={<ShopSignupPage />} />
+        <Route path="/shop/login" element={<ShopLoginPage />} />
+        <Route path="/shop/activation/:activation_token" element={<ShopActivationPage />} />
+        <Route
+          path="/shop/:id"
+          element={
+            <ShopProtectedRoute>
+              <ShopHomePage />
+            </ShopProtectedRoute>
+          }
+        />
       </Routes>
       <ToastContainer
         position="bottom-center"
-        autoClose={5000}
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

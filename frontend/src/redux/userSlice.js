@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { apiURL } from '../apiConfig';
 
-
 export const loadUser = createAsyncThunk('user/loadUser', async () => {
   try {
     const { data } = await axios.get(`${apiURL}/user/getUser`, { withCredentials: true });
@@ -14,7 +13,7 @@ export const loadUser = createAsyncThunk('user/loadUser', async () => {
 
 const initialState = {
   isAuthenticated: false,
-  loading: false,
+  isLoading: null,
   error: null,
   user: null,
 };
@@ -30,17 +29,17 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loadUser.pending, (state) => {
-        state.loading = true;
+        state.isLoading = true;
       })
       .addCase(loadUser.fulfilled, (state, action) => {
         state.isAuthenticated = true;
-        state.loading = false;
+        state.isLoading = false;
         state.user = action.payload;
         state.error = null;
       })
       .addCase(loadUser.rejected, (state, action) => {
         state.isAuthenticated = false;
-        state.loading = false;
+        state.isLoading = false;
         state.error = action.error.message;
       });
   },

@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import styles from '../../styles/styles';
-import { Link } from 'react-router-dom';
-import { RxAvatar } from 'react-icons/rx';
-import { apiURL } from '../../apiConfig.js';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { apiURL } from '../../apiConfig';
 import { toast } from 'react-toastify';
+import { RxAvatar } from 'react-icons/rx';
 
-const Signup = () => {
+const ShopSignup = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [address, setAddress] = useState('');
+  const [zipCode, setZipCode] = useState('');
+  const [avatar, setAvatar] = useState('');
   const [password, setPassword] = useState('');
-  const [visible, setVisible] = useState(false);
-  const [avatar, setAvatar] = useState(null);
+  const [visible, setVisible] = useState('');
+
+  const handleInputFileChange = (e) => {
+    const file = e.target.files[0];
+    setAvatar(file);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,42 +32,38 @@ const Signup = () => {
     newForm.append('name', name);
     newForm.append('email', email);
     newForm.append('password', password);
+    newForm.append('zipCode', zipCode);
+    newForm.append('address', address);
+    newForm.append('phoneNumber', phoneNumber);
 
     axios
-      .post(`${apiURL}/user/signup`, newForm, config)
+      .post(`${apiURL}/shop/signup`, newForm, config)
       .then((res) => {
         toast.success(res.data.message);
       })
-      .catch((err) => {
-        toast.error(err.response.data.message);
+      .catch((error) => {
+        toast.error(error.response.data.message);
       });
-  };
-
-  const handleInputFileChange = (e) => {
-    const file = e.target.files[0];
-    setAvatar(file);
   };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Register as a new user
+          Register as a new Seller
         </h2>
       </div>
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-[35rem]">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                Full Name
+                Shop Name
               </label>
               <div className="mt-1">
                 <input
-                  type="text"
+                  type="name"
                   name="name"
-                  id="name"
-                  autoComplete="name"
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -68,15 +72,29 @@ const Signup = () => {
               </div>
             </div>
             <div>
+              <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">
+                Shop Phone Number
+              </label>
+              <div className="mt-1">
+                <input
+                  type="number"
+                  name="phoneNumber"
+                  required
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+              </div>
+            </div>
+            <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email
+                Shop Email
               </label>
               <div className="mt-1">
                 <input
                   type="email"
                   name="email"
                   id="email"
-                  autoComplete="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -93,7 +111,6 @@ const Signup = () => {
                   type={visible ? 'text' : 'password'}
                   name="password"
                   id="password"
-                  autoComplete="current-password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -112,6 +129,36 @@ const Signup = () => {
                     onClick={() => setVisible(true)}
                   />
                 )}
+              </div>
+            </div>
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                Shop Address
+              </label>
+              <div className="mt-1">
+                <input
+                  type="address"
+                  name="address"
+                  required
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+              </div>
+            </div>
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                Zip Code
+              </label>
+              <div className="mt-1">
+                <input
+                  type="number"
+                  name="zipCode"
+                  required
+                  value={zipCode}
+                  onChange={(e) => setZipCode(e.target.value)}
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
               </div>
             </div>
             <div>
@@ -152,9 +199,9 @@ const Signup = () => {
               Submit
             </button>
             <div className={`${styles.normalFlex} w-full`}>
-              <h4>Already have an account?</h4>
-              <Link to="/user/login" className="text-blue-600 hover:text-blue-400 pl-2">
-                Sign Up
+              <h4>Already have a Shop account?</h4>
+              <Link to="/shop/login" className="text-blue-600 hover:text-blue-400 pl-2">
+                Sign in
               </Link>
             </div>
           </form>
@@ -164,4 +211,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default ShopSignup;

@@ -5,21 +5,24 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { apiURL } from '../../apiConfig';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { loadUser } from '../../redux/userSlice';
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [visible, setVisible] = useState('');
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
       .post(`${apiURL}/user/login`, { email, password }, { withCredentials: true })
       .then((res) => {
-        toast.success('Login Success!');
+        toast.success('Login Success😎');
+        dispatch(loadUser());
         navigate('/');
-        window.location.reload();
       })
       .catch((err) => {
         toast.error(err.response.data.message);
@@ -115,7 +118,7 @@ const Login = () => {
             </button>
             <div className={`${styles.normalFlex} w-full`}>
               <h4>Not have any account?</h4>
-              <Link to="/sign-up" className="text-blue-600 pl-2 hover:text-blue-400">
+              <Link to="/user/sign-up" className="text-blue-600 pl-2 hover:text-blue-400">
                 Sign Up
               </Link>
             </div>

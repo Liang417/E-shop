@@ -4,12 +4,12 @@ const catchAsyncError = require('../middleware/catchAsyncError.js');
 const fs = require('fs');
 const path = require('path');
 const jwt = require('jsonwebtoken');
-const sendToken = require('../utils/jwtToken.js');
+const { sendUserToken } = require('../utils/jwtToken.js');
 const sendMail = require('../utils/sendMail.js');
 
 // Create activation token
 function createActivationToken(user) {
-  return jwt.sign(user, process.env.ACTIVATION_SECRET, { expiresIn: '5m' });
+  return jwt.sign(user, process.env.ACTIVATION_SECRET, { expiresIn: '10m' });
 }
 
 // Send an activation email to user
@@ -48,19 +48,19 @@ const sendAuthEmail = async (req, res, next) => {
     const activationToken = createActivationToken(user);
 
     // Create an activation URL with the activation token
-    const activationUrl = `http://localhost:3000/activation/${activationToken}`;
+    const activationUrl = `http://localhost:3000/user/activation/${activationToken}`;
 
     // Send an activation email to the user with the activation URL
     try {
       await sendMail({
         email: user.email,
         subject: 'Activate your account',
-        message: `Hello ${user.name}, please click on the link within 5 minutes to activate your account: ${activationUrl}`,
+        message: `Hello ${user.name}, please click on the link within 10 minutes to activate your account: ${activationUrl}`,
       });
       // If email is sent successfully, send a success response to the client
       res.status(201).json({
         success: true,
-        message: `Please check your email:- ${user.email} to activate your account within 5 minutes!`,
+        message: `Please check your email:- ${user.email} to activate your account within 10 minutes!`,
       });
     } catch (err) {
       // If there is an error sending the email, pass it to the error handler middleware
@@ -97,7 +97,7 @@ const createUser = catchAsyncError(async (req, res, next) => {
     const newUser = await User.create({ name, email, avatar, password });
 
     // Create a token and send it back to the client
-    sendToken(newUser, 201, res);
+    sendUserToken(newUser, 201, res);
   } catch (err) {
     return next(new ErrorHandler(err.message, 500, err));
   }
@@ -107,7 +107,7 @@ const createUser = catchAsyncError(async (req, res, next) => {
 const loginUser = catchAsyncError(async (req, res, next) => {
   try {
     const { email, password } = req.body;
-
+    console.log(req)
     // Check if email and password are provided
     if (!email || !password) {
       return next(new ErrorHandler('Please provide email and password', 400));
@@ -128,7 +128,7 @@ const loginUser = catchAsyncError(async (req, res, next) => {
     }
 
     // Create a token and send it back to the client
-    sendToken(user, 201, res);
+    sendUserToken(user, 201, res);
   } catch (err) {
     // If there is an error, pass it to the error handler middleware
     return next(new ErrorHandler(err.message, 500, err));
@@ -157,4 +157,21 @@ const getUser = catchAsyncError(async (req, res, next) => {
   }
 });
 
-module.exports = { createUser, sendAuthEmail, loginUser, getUser };
+// LogOut User
+const logoutUser = catchAsyncError(async (req, res, next) => {
+  try {
+    res.cookie('user_token', null, {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'Logged out successfully🙂',
+    });
+  } catch (err) {
+    return next(new ErrorHandler(err.message, 500, err));
+  }
+});
+
+module.exports = { createUser, sendAuthEmail, loginUser, getUser, logoutUser };

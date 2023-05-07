@@ -4,7 +4,7 @@ import { apiURL } from '../apiConfig.js';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const ActivationPage = () => {
+const SellerActivationPage = () => {
   const { activation_token } = useParams();
   const [error, setError] = useState(false);
 
@@ -12,7 +12,7 @@ const ActivationPage = () => {
     if (activation_token) {
       const sendRequest = async () => {
         await axios
-          .post(`${apiURL}/user/create`, { activation_token }, { withCredentials: true })
+          .post(`${apiURL}/shop/create`, { activation_token }, { withCredentials: true })
           .then((res) => {
             toast.success('Your account has been created successfully!');
           })
@@ -45,4 +45,4 @@ const ActivationPage = () => {
   );
 };
 
-export default ActivationPage;
+export default SellerActivationPage;

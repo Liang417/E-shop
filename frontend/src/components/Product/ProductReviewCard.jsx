@@ -34,10 +34,10 @@ const ProductDetailsCard = ({ setOpen, data }) => {
     <div className="bg-[#fff] cursor-auto">
       {data ? (
         <div
-          className="fixed w-[100vw] h-[100vh] top-0 left-0 bg-[#00000030] z-40 flex items-center justify-center"
+          className="fixed w-[100vw] h-[100vh] top-0 left-0 bg-[#00000030] z-40 flex items-center justify-center "
           onClick={handleClickOutside}
         >
-          <div className="w-[90%] 800px:w-[80%] h-[90vh] 800px:h-[80vh] bg-white rounded-md shadow-sm relative overflow-y-scroll p-4">
+          <div className="w-[90%] 800px:w-[80%] h-[90vh] 800px:h-[80vh] bg-white rounded-md shadow-sm relative overflow-y-scroll p-4 mt-10 800px:mt-0">
             <RxCross1
               size={30}
               className="absolute right-3 top-3 hover:cursor-pointer hover:text-red-500"

@@ -1,6 +1,6 @@
 // Create token and saving to cookies
-const sendToken = (user, statusCode, res) => {
-  const token = user.getJwtToken();
+const sendUserToken = (user, statusCode, res) => {
+  const userToken = user.getJwtToken();
 
   // Options for cookies
   const options = {
@@ -8,11 +8,27 @@ const sendToken = (user, statusCode, res) => {
     httpOnly: true, // the cookie can only be accessed by the server
     Secure: true, // the cookie will only be sent over HTTPS
   };
-  res.status(statusCode).cookie('token', token, options).json({
+  res.status(statusCode).cookie('user_token', userToken, options).json({
     success: true,
     user,
-    token,
+    userToken,
   });
 };
 
-module.exports = sendToken;
+const sendSellerToken = (seller, statusCode, res) => {
+  const sellerToken = seller.getJwtToken();
+
+  // Options for cookies
+  const options = {
+    expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+    httpOnly: true, // the cookie can only be accessed by the server
+    Secure: true, // the cookie will only be sent over HTTPS
+  };
+  res.status(statusCode).cookie('seller_token', sellerToken, options).json({
+    success: true,
+    seller,
+    sellerToken,
+  });
+};
+
+module.exports = { sendUserToken, sendSellerToken };
