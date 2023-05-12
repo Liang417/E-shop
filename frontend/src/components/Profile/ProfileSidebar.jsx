@@ -22,12 +22,10 @@ const ProfileSidebar = ({ active, setActive }) => {
       .then((res) => {
         toast.success(res.data.message);
         dispatch(loadUser());
-        setTimeout(() => {
-          navigate('/');
-        }, 1000);
+        navigate('/');
       })
       .catch((err) => {
-        console.log(err.response.data.message);
+        toast.error(err.response.data.message);
       });
   };
   return (

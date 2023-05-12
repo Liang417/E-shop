@@ -140,7 +140,7 @@ const getSeller = catchAsyncError(async (req, res, next) => {
   try {
     // Find the seller with the provided seller ID
     const seller = await Shop.findById(req.seller.id);
-  
+
     // If seller does not exist, return an error
     if (!seller) {
       return next(new ErrorHandler('seller does not exists', 404));
@@ -157,4 +157,21 @@ const getSeller = catchAsyncError(async (req, res, next) => {
   }
 });
 
-module.exports = { sendAuthEmail, createSeller, loginSeller, getSeller };
+// logout seller
+const logoutSeller = catchAsyncError(async (req, res, next) => {
+  try {
+    res.cookie('seller_token', null, {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'Logged out successfully🙂',
+    });
+  } catch (err) {
+    return next(new ErrorHandler(err.message, 500, err));
+  }
+});
+
+module.exports = { sendAuthEmail, createSeller, loginSeller, getSeller, logoutSeller };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { apiURL } from '../apiConfig.js';
+import { apiURL } from '../../apiConfig.js';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 

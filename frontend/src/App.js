@@ -13,11 +13,16 @@ import {
   ProductDetailsPage,
   ProfilePage,
   CheckoutPage,
+} from './routes/Routes.js';
+import {
   ShopSignupPage,
   ShopActivationPage,
   ShopLoginPage,
   ShopHomePage,
-} from './routes/Routes.js';
+  ShopDashBoardPage,
+  ShopCreateProduct,
+  ShopAllProducts
+} from './routes/ShopRoutes';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch } from 'react-redux';
@@ -36,7 +41,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />}></Route>      
+        <Route path="/" element={<HomePage />}></Route>
         <Route path="/products" element={<ProductPage />} />
         <Route path="/product/:id" element={<ProductDetailsPage />} />
         <Route path="/best-selling" element={<BestSellingPage />} />
@@ -56,7 +61,7 @@ const App = () => {
           }
         />
         <Route
-          path="/checkout"
+          path="/user/checkout"
           element={
             <UserProtectedRoute>
               <CheckoutPage />
@@ -73,6 +78,30 @@ const App = () => {
           element={
             <ShopProtectedRoute>
               <ShopHomePage />
+            </ShopProtectedRoute>
+          }
+        />
+        <Route
+          path="/shop/dashboard"
+          element={
+            <ShopProtectedRoute>
+              <ShopDashBoardPage />
+            </ShopProtectedRoute>
+          }
+        />
+        <Route
+          path="/shop/dashboard-create-product"
+          element={
+            <ShopProtectedRoute>
+              <ShopCreateProduct />
+            </ShopProtectedRoute>
+          }
+        />
+        <Route
+          path="/shop/dashboard-products"
+          element={
+            <ShopProtectedRoute>
+              <ShopAllProducts />
             </ShopProtectedRoute>
           }
         />

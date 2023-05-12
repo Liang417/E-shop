@@ -107,7 +107,7 @@ const createUser = catchAsyncError(async (req, res, next) => {
 const loginUser = catchAsyncError(async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    console.log(req)
+    console.log(req);
     // Check if email and password are provided
     if (!email || !password) {
       return next(new ErrorHandler('Please provide email and password', 400));

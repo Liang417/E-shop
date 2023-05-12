@@ -1,5 +1,5 @@
 import React from 'react';
-import {AiOutlineCloseCircle,AiOutlineHeart} from 'react-icons/ai'
+import { AiOutlineCloseCircle, AiOutlineHeart } from 'react-icons/ai';
 import WishListSingle from './WishListSingle';
 import styles from '../../styles/styles';
 import { Link } from 'react-router-dom';
@@ -42,7 +42,7 @@ const WishList = ({ setOpenCart }) => {
 
   return (
     <div className="fixed top-0 left-0 w-full bg-[#0000004b] h-screen z-10">
-      <div className="fixed top-0 right-0 h-full w-[25%] bg-white flex flex-col overflow-y-scroll justify-between shadow-sm">
+      <div className="fixed top-0 right-0 h-full w-full sm:w-[55%] lg:w-[40%] xl:w-[30%]  bg-white flex flex-col overflow-y-scroll justify-between shadow-sm">
         <div>
           {/* Item length */}
           <div className={`${styles.normalFlex} p-4`}>

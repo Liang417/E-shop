@@ -13,9 +13,9 @@ export const loadSeller = createAsyncThunk('seller/loadSeller', async () => {
 
 const initialState = {
   isAuthenticated: false,
-  isLoading: null,
+  isLoading: true,
   error: null,
-  user: null,
+  seller: null,
 };
 
 export const sellerSlice = createSlice({
@@ -34,7 +34,6 @@ export const sellerSlice = createSlice({
       state.isAuthenticated = true;
       state.isLoading = false;
       state.seller = action.payload;
-      state.error = null;
     });
     builder.addCase(loadSeller.rejected, (state, action) => {
       state.isAuthenticated = false;

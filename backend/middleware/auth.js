@@ -25,6 +25,7 @@ const userAuth = catchAsyncError(async (req, res, next) => {
 // seller token
 const sellerAuth = catchAsyncError(async (req, res, next) => {
   const { seller_token } = req.cookies;
+
   if (!seller_token) {
     return next(new ErrorHandler('Please login to continue', 401));
   }

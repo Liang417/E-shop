@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import ShopLogin from '../components/Shop/ShopLogin.jsx';
+import ShopLogin from '../../components/Shop/ShopLogin.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -9,7 +9,7 @@ const ShopLoginPage = () => {
   
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/');
+      navigate('/shop/dashboard');
     }
   }, [isAuthenticated]);
 

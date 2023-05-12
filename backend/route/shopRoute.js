@@ -6,6 +6,7 @@ const {
   createSeller,
   loginSeller,
   getSeller,
+  logoutSeller,
 } = require('../controller/shopController.js');
 const { sellerAuth } = require('../middleware/auth.js');
 
@@ -15,7 +16,9 @@ router.post('/signup', upload.single('file'), sendAuthEmail);
 router.post('/create', createSeller);
 // Login seller
 router.post('/login', loginSeller);
-// Get User
+// Get seller
 router.get('/getSeller', sellerAuth, getSeller);
+// Logout seller
+router.get('/logout', logoutSeller);
 
 module.exports = router;

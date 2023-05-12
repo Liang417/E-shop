@@ -14,9 +14,11 @@ app.use('/', express.static('uploads'));
 // route
 const userRoute = require('./route/userRoute.js');
 const shopRoute = require('./route/shopRoute.js');
+const productRoute = require('./route/productRoute.js');
 
 app.use('/api/v2/user', userRoute);
 app.use('/api/v2/shop', shopRoute);
+app.use('/api/v2/product', productRoute);
 
 // Custom error handler middleware
 app.use(errorHandler);

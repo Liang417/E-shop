@@ -5,12 +5,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { apiURL } from '../../apiConfig';
 import { toast } from 'react-toastify';
+import { loadSeller } from '../../redux/sellerSlice';
+import { useDispatch } from 'react-redux';
 
 const ShopLogin = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [visible, setVisible] = useState('');
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,7 +21,8 @@ const ShopLogin = () => {
       .post(`${apiURL}/shop/login`, { email, password }, { withCredentials: true })
       .then((res) => {
         toast.success('Login Success😎');
-        navigate('/');
+        dispatch(loadSeller());
+        navigate('/shop/dashboard');
       })
       .catch((err) => {
         toast.error(err.response.data.message);

@@ -172,12 +172,6 @@ const Header = ({ activeHeading, category }) => {
                 )}
               </div>
             </div>
-
-            {/* cart popup */}
-            {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
-
-            {/* wishlist popup */}
-            {openWishList ? <WishList setOpenCart={setOpenWishList} /> : null}
           </div>
         </div>
       </div>
@@ -189,7 +183,11 @@ const Header = ({ activeHeading, category }) => {
       >
         <div className="w-full h-full flex items-center justify-between">
           <div>
-            <BiMenuAltLeft size={40} className="ml-4" onClick={() => setOpen(true)} />
+            <BiMenuAltLeft
+              size={40}
+              className="ml-4 cursor-pointer"
+              onClick={() => setOpen(true)}
+            />
           </div>
           <div>
             <Link to="/">
@@ -201,7 +199,7 @@ const Header = ({ activeHeading, category }) => {
             </Link>
           </div>
           <div>
-            <div className="relative mr-[20px]">
+            <div className="relative mr-[20px] cursor-pointer" onClick={() => setOpenCart(true)}>
               <AiOutlineShoppingCart size={30} />
               <span className="absolute -right-1 -top-1 rounded-full bg-[#3bc177] w-5 h-5 p-0 m-0 text-white font-mono text-[12px]  leading-tight text-center">
                 12
@@ -216,8 +214,15 @@ const Header = ({ activeHeading, category }) => {
             <div className="fixed w-[60%] bg-[#fff] h-full top-0 left-0 z-10 overflow-y-scroll">
               <div className="w-full justify-between flex pr-3">
                 <div>
-                  <div className="relative mr-[15px]">
-                    <AiOutlineHeart size={30} className="mt-5 ml-3" />
+                  <div className="relative mr-[15px] cursor-pointer">
+                    <AiOutlineHeart
+                      size={30}
+                      className="mt-5 ml-3"
+                      onClick={() => {
+                        setOpenWishList(true);
+                        setOpen(false);
+                      }}
+                    />
                     <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px]  leading-tight text-center">
                       0
                     </span>
@@ -254,7 +259,7 @@ const Header = ({ activeHeading, category }) => {
 
               <Navbar active={activeHeading} />
               <div className={`${styles.button} ml-4 !rounded-[4px]`}>
-                <Link to="/shop-sign-up">
+                <Link to="/shop/sign-up">
                   <h1 className="text-[#fff] flex items-center">
                     Become Seller <IoIosArrowForward className="ml-1" />
                   </h1>
@@ -290,6 +295,12 @@ const Header = ({ activeHeading, category }) => {
           </div>
         )}
       </div>
+
+      {/* cart popup */}
+      {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
+
+      {/* wishlist popup */}
+      {openWishList ? <WishList setOpenCart={setOpenWishList} /> : null}
     </>
   );
 };

@@ -13,7 +13,7 @@ export const loadUser = createAsyncThunk('user/loadUser', async () => {
 
 const initialState = {
   isAuthenticated: false,
-  isLoading: null,
+  isLoading: true,
   error: null,
   user: null,
 };
@@ -35,7 +35,6 @@ export const userSlice = createSlice({
         state.isAuthenticated = true;
         state.isLoading = false;
         state.user = action.payload;
-        state.error = null;
       })
       .addCase(loadUser.rejected, (state, action) => {
         state.isAuthenticated = false;

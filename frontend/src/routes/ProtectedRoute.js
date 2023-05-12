@@ -1,17 +1,19 @@
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-// import { toast } from 'react-toastify';
+import Loader from '../components/Layout/Loader';
 
 const UserProtectedRoute = ({ children }) => {
   const { isLoading, isAuthenticated } = useSelector((state) => {
     return state.user;
   });
 
-  if (!isLoading && isAuthenticated === true) {
+  if (isLoading === true) {
+    return <Loader />;
+  } else {
+    if (!isAuthenticated) {
+      return <Navigate to="/user/login" replace />;
+    }
     return children;
-  } else if (isLoading === false && isAuthenticated === false) {
-    // toast.error('Please Login First');
-    return <Navigate to="/user/login" replace />;
   }
 };
 
@@ -20,11 +22,13 @@ const ShopProtectedRoute = ({ children }) => {
     return state.seller;
   });
 
-  if (!isLoading && isAuthenticated === true) {
+  if (isLoading === true) {
+    return <Loader />;
+  } else {
+    if (!isAuthenticated) {
+      return <Navigate to="/shop/login" replace />;
+    }
     return children;
-  } else if (isLoading === false && isAuthenticated === false) {
-    // toast.error('Please Login First');
-    return <Navigate to="/shop/login" replace />;
   }
 };
 

@@ -40,7 +40,7 @@ const ShopSchema = new mongoose.Schema({
     type: String,
     default: 'seller',
   },
-  createAt: {
+  createdAt: {
     type: Date,
     default: Date.now(),
   },
