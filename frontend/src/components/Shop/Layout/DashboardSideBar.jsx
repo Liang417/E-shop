@@ -12,19 +12,18 @@ import axios from 'axios';
 import { apiURL } from '../../../apiConfig';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { loadSeller } from '../../../redux/sellerSlice';
+import { loadSeller } from '../../../redux/slice/sellerSlice';
 
 const DashboardSideBar = ({ active }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const logoutHandler = async () => {
     axios
       .get(`${apiURL}/shop/logout`, { withCredentials: true })
       .then((res) => {
-        toast.success(res.data.message);
         dispatch(loadSeller());
-        navigate('/');
+        toast.success(res.data.message);
+        window.location.replace('/');
       })
       .catch((err) => {
         toast.error(err.response.data.message);
@@ -74,24 +73,11 @@ const DashboardSideBar = ({ active }) => {
       </div>
 
       <div className="w-full flex items-center p-3 hover:bg-gray-200">
-        <Link to="/shop/dashboard-create-product" className="w-full flex items-center">
-          <AiOutlineFolderAdd size={30} color={`${active === 4 ? 'crimson' : '#555'}`} />
+        <Link to="/shop/dashboard-events" className="w-full flex items-center">
+          <MdOutlineLocalOffer size={30} color={`${active === 4 ? 'crimson' : '#555'}`} />
           <h5
             className={`hidden 800px:block pl-2 text-[12px] md:text-[16px] font-[400] ${
               active === 4 ? 'text-[crimson]' : 'text-[#555]'
-            }`}
-          >
-            Create Product
-          </h5>
-        </Link>
-      </div>
-
-      <div className="w-full flex items-center p-3 hover:bg-gray-200">
-        <Link to="/shop/dashboard-events" className="w-full flex items-center">
-          <MdOutlineLocalOffer size={30} color={`${active === 5 ? 'crimson' : '#555'}`} />
-          <h5
-            className={`hidden 800px:block pl-2 text-[12px] md:text-[16px] font-[400] ${
-              active === 5 ? 'text-[crimson]' : 'text-[#555]'
             }`}
           >
             All Events
@@ -101,13 +87,26 @@ const DashboardSideBar = ({ active }) => {
 
       <div className="w-full flex items-center p-3 hover:bg-gray-200">
         <Link to="/shop/dashboard-create-event" className="w-full flex items-center">
-          <VscNewFile size={30} color={`${active === 6 ? 'crimson' : '#555'}`} />
+          <VscNewFile size={30} color={`${active === 5 ? 'crimson' : '#555'}`} />
+          <h5
+            className={`hidden 800px:block pl-2 text-[12px] md:text-[16px] font-[400] ${
+              active === 5 ? 'text-[crimson]' : 'text-[#555]'
+            }`}
+          >
+            Create Event
+          </h5>
+        </Link>
+      </div>
+
+      <div className="w-full flex items-center p-3 hover:bg-gray-200">
+        <Link to="/shop/dashboard-create-product" className="w-full flex items-center">
+          <AiOutlineFolderAdd size={30} color={`${active === 6 ? 'crimson' : '#555'}`} />
           <h5
             className={`hidden 800px:block pl-2 text-[12px] md:text-[16px] font-[400] ${
               active === 6 ? 'text-[crimson]' : 'text-[#555]'
             }`}
           >
-            Create Event
+            Create Product
           </h5>
         </Link>
       </div>

@@ -1,12 +1,12 @@
 const ErrorHandler = require('../utils/ErrorHandler.js');
 
 module.exports = (err, req, res, next) => {
-  err.status = err.statusCode || 500;
+  err.status = err.status || 500;
   err.message = err.message || 'Internal server Error';
 
   // wrong mongo id error
   if (err.name === 'CastError') {
-    err.message = `Resources not found with this id. Invalid ${err.path}`;
+    err.message = `Resources not found with this id. Invalid: ${err}`;
     err.status = 404;
   }
 

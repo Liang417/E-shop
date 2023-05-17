@@ -13,11 +13,11 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please enter your event product category'],
   },
-  start_Date: {
+  startDate: {
     type: Date,
     required: true,
   },
-  finish_Date: {
+  endDate: {
     type: Date,
     required: true,
   },
@@ -44,7 +44,7 @@ const eventSchema = new mongoose.Schema({
       type: String,
     },
   ],
-  shopId: {
+  shop: {
     type: mongoose.Schema.ObjectId,
     ref: 'Shop',
     required: true,

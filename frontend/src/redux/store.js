@@ -1,10 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userReducer from './userSlice.js';
-import sellerReducer from './sellerSlice.js';
-import productReducer from './productSlice.js';
+import userReducer from './slice/userSlice.js';
+import sellerReducer from './slice/sellerSlice.js';
+import productReducer from './slice/productSlice.js';
+import eventReducer from './slice/eventSlice.js';
+import cartReducer from './slice/cartSlice.js';
+import wishListReducer from './slice/wishListSlice.js';
 
 const Store = configureStore({
-  reducer: { user: userReducer, seller: sellerReducer, product: productReducer },
+  reducer: {
+    user: userReducer,
+    seller: sellerReducer,
+    product: productReducer,
+    event: eventReducer,
+    cart: cartReducer,
+    wishList: wishListReducer,
+  },
 });
 
 export default Store;

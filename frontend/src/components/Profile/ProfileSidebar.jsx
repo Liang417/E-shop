@@ -10,7 +10,7 @@ import axios from 'axios';
 import { apiURL } from '../../apiConfig';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { loadUser } from '../../redux/userSlice';
+import { loadUser } from '../../redux/slice/userSlice';
 
 const ProfileSidebar = ({ active, setActive }) => {
   const navigate = useNavigate();

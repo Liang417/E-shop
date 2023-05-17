@@ -7,8 +7,9 @@ import {
 } from 'react-icons/ai';
 import { RxCross1 } from 'react-icons/rx';
 import styles from '../../styles/styles';
+import { backendURL } from '../../apiConfig';
 
-const ProductDetailsCard = ({ setOpen, data }) => {
+const ProductPreviewCard = ({ setOpen, data }) => {
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
 
@@ -45,14 +46,20 @@ const ProductDetailsCard = ({ setOpen, data }) => {
             />
             {/*Left side */}
             <div className="block w-full 800px:flex">
-              <div className="w-full 800px:w-[50%]">
-                <img src={data.image_Url[0].url} alt="product_img" className="block mx-auto" />
+              <div className="w-full 800px:w-[50%] pt-5">
+                <div className="flex items-center justify-center">
+                  <img
+                    src={`${backendURL}/${data.images[0]}`}
+                    alt="product_img"
+                    className="w-[80%] object-cover"
+                  />
+                </div>
 
                 <div className="flex items-center justify-evenly">
                   <img
-                    src={data.shop.shop_avatar.url}
+                    src={`${backendURL}/${data.shop.avatar}`}
                     alt=""
-                    className="w-[50px] h-[50px] rounded-full mr-2"
+                    className="w-[50px] h-[50px] border border-black rounded-full mr-2"
                   />
                   <div>
                     <h3 className={`${styles.shop_name}`}>{data.shop.name}</h3>
@@ -95,11 +102,13 @@ const ProductDetailsCard = ({ setOpen, data }) => {
               {/* Right side */}
               <div className="w-full 800px:w-[50%] pt-5 pl-[5px] pr-[5px]">
                 <h1 className={`${styles.productTitle} text-[20px]`}>{data.name}</h1>
-                <p>{data.description}</p>
+                <p className='whitespace-pre-line'>{data.description}</p>
 
                 <div className="flex pt-6 mr-5 justify-end">
-                  <h3 className={`${styles.price}`}>{data.price ? data.price + '$' : null}</h3>
-                  <h4 className={`${styles.productDiscountPrice}`}>{data.discount_price}$</h4>
+                  <h3 className={`${styles.price}`}>
+                    {data.originalPrice ? data.originalPrice + '$' : null}
+                  </h3>
+                  <h4 className={`${styles.productDiscountPrice}`}>{data.discountPrice}$</h4>
                 </div>
 
                 <div className="flex justify-end mr-5">
@@ -138,4 +147,4 @@ const ProductDetailsCard = ({ setOpen, data }) => {
   );
 };
 
-export default ProductDetailsCard;
+export default ProductPreviewCard;

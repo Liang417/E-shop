@@ -44,6 +44,12 @@ const ShopSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  products: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Product',
+    },
+  ],
   resetPasswordToken: String,
   resetPasswordTime: Date,
 });

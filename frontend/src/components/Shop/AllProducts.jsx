@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteProduct, getAllProducts, reset } from '../../redux/productSlice';
+import { deleteProduct, getAllProductsOfShop, reset } from '../../redux/slice/productSlice';
 import { AiOutlineDelete, AiOutlineEye } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
@@ -9,7 +9,9 @@ import { DataGrid } from '@mui/x-data-grid';
 import Loader from '../Layout/Loader';
 
 const AllProducts = () => {
-  const { products, isLoading, success, error, message } = useSelector((state) => state.product);
+  const { shopProducts, isLoading, success, error, message } = useSelector(
+    (state) => state.product
+  );
   const { seller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
 
@@ -17,22 +19,22 @@ const AllProducts = () => {
     dispatch(deleteProduct(id));
   };
 
-  // for get all products
+  // get all shopProducts
   useEffect(() => {
-    dispatch(getAllProducts(seller._id));
+    dispatch(getAllProductsOfShop(seller._id));
   }, [dispatch, seller._id]);
 
-  // for error and success change
+  // for error change
   useEffect(() => {
     if (error) {
       toast.error(error);
       dispatch(reset());
     }
-    if (success) {
-      toast.success(message);
-      dispatch(reset());
-      dispatch(getAllProducts(seller._id));
-    }
+    //   if (success) {
+    //     toast.success(message);
+    //     dispatch(reset());
+    //     dispatch(getAllProductsOfShop(seller._id));
+    //   }
   }, [dispatch, error, success, message, seller._id]);
 
   const columns = [
@@ -89,11 +91,10 @@ const AllProducts = () => {
       headerAlign: 'center',
       align: 'center',
       renderCell: (params) => {
-        const name = params.row.name;
-        const product_name = name.replace(/\s+/g, '-');
+        const id = params.row.id;
         return (
           <>
-            <Link to={`/product/${product_name}`}>
+            <Link to={`/product/${id}`}>
               <Button>
                 <AiOutlineEye size={20} />
               </Button>
@@ -124,8 +125,8 @@ const AllProducts = () => {
   ];
 
   const rows = [];
-  products &&
-    products.forEach((item) => {
+  shopProducts &&
+    shopProducts.forEach((item) => {
       rows.push({
         id: item._id,
         name: item.name,

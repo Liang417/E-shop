@@ -9,7 +9,7 @@ const ShopCreateProduct = () => {
       <DashboardHeader />
       <div className="w-full flex items-start justify-between ">
         <div className="w-[50px] 800px:w-[330px] sticky top-20">
-          <DashboardSideBar active={4} />
+          <DashboardSideBar active={6} />
         </div>
         <div className="w-full flex justify-center ">
           <CreateProduct />

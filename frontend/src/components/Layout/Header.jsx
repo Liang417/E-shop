@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../../styles/styles';
 import { Link } from 'react-router-dom';
-import { productData, categoriesData } from '../../static/data';
 import { AiOutlineHeart, AiOutlineSearch, AiOutlineShoppingCart } from 'react-icons/ai';
 import { IoIosArrowDown, IoIosArrowForward } from 'react-icons/io';
 import { BiMenuAltLeft } from 'react-icons/bi';
@@ -16,6 +15,10 @@ import { RxCross1 } from 'react-icons/rx';
 
 const Header = ({ activeHeading, category }) => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
+  const { carts } = useSelector((state) => state.cart);
+  const { products } = useSelector((state) => state.product);
+  const { seller } = useSelector((state) => state.seller);
+  const { wishLists } = useSelector((state) => state.wishList);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchData, setSearchData] = useState(null);
   const [active, setActive] = useState(false);
@@ -28,31 +31,43 @@ const Header = ({ activeHeading, category }) => {
     const term = e.target.value;
     setSearchTerm(term);
 
+    if (term === '') {
+      return setSearchData(null);
+    }
+
     const filteredProducts =
-      productData &&
-      productData.filter((product) => product.name.toLowerCase().includes(term.toLowerCase()));
+      products &&
+      products.filter((product) => product.name.toLowerCase().includes(term.toLowerCase()));
     setSearchData(filteredProducts);
   };
 
+  const handleScroll = () => {
+    if (window.scrollY > 70) {
+      setActive(true);
+    } else {
+      setActive(false);
+    }
+  };
+
+  const handleDropDown = (e) => {
+    if (!e.target.parentElement?.classList.contains('dropDown')) {
+      setDropDown(false);
+    }
+  };
+
+  const handleSearchBox = (e) => {
+    setSearchData(null);
+  };
+
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 70) {
-        setActive(true);
-      } else {
-        setActive(false);
-      }
-    };
-    const handleDropDown = (e) => {
-      if (!e.target.parentElement?.classList.contains('dropDown')) {
-        setDropDown(false);
-      }
-    };
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('click', handleDropDown);
+    window.addEventListener('click', handleSearchBox);
     return () => {
       // Fixed
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('click', handleDropDown);
+      window.removeEventListener('click', handleSearchBox);
     };
   }, []);
 
@@ -77,20 +92,19 @@ const Header = ({ activeHeading, category }) => {
             ></input>
             <AiOutlineSearch size={30} className="absolute right-2 top-1.5 cursor-pointer" />
             {searchData && searchData.length !== 0 ? (
-              <div className="absolute min-h-[30vh] bg-slate-50 shadow-sm-2 z-[9] p-4">
+              <div className="absolute min-h-[30vh] bg-slate-50 shadow-sm-2 z-[10] mt-1 p-4 border-2 border-[#3957db] rounded ">
                 {searchData &&
                   searchData.map((item, index) => {
-                    const product_name = item.name.replace(/\s+/g, '-');
                     return (
-                      <Link to={`/product/${product_name}`} key={index}>
-                        <div className="w-full flex items-start-py-3">
+                      <Link to={`/product/${item._id}`} key={index}>
+                        <div className="w-full flex items-center py-3">
                           <img
-                            src={item.image_Url[0].url}
+                            src={`${backendURL}/${item.images[0]}`}
                             alt=""
                             className="w-[40px] h-[40px] mr-[10px]"
                           />
+                          <h1>{item.name}</h1>
                         </div>
-                        <h1>{item.name}</h1>
                       </Link>
                     );
                   })}
@@ -99,9 +113,9 @@ const Header = ({ activeHeading, category }) => {
           </div>
           {/* become seller button */}
           <div className={`${styles.button}`}>
-            <Link to="/shop/sign-up">
+            <Link to={seller ? `/shop/profile/${seller._id}` : '/shop/sign-up'}>
               <h1 className="text-[#fff] flex items-center">
-                Become Seller <IoIosArrowForward className="ml-1" />
+                {seller ? 'My Shop' : 'Become Seller'} <IoIosArrowForward className="ml-1" />
               </h1>
             </Link>
           </div>
@@ -113,22 +127,20 @@ const Header = ({ activeHeading, category }) => {
           active === true ? 'shadow-sm fixed top-0 left-0 z-10' : null
         } transition hidden 800px:flex items-center justify-between w-full bg-[#3321c8] h-[70px]`}
       >
-        <div className={`${styles.section} ${styles.normalFlex} relative  justify-between `}>
+        <div className={`${styles.section} ${styles.normalFlex} relative justify-between `}>
           {/* categories */}
           <div
-            className="dropDown relative h-[60px] mt-[10px] w-[270px] hidden 1000px:block cursor-pointer "
+            className="dropDown relative h-[60px] mt-[10px] w-[300px] hidden 1000px:block cursor-pointer "
             onClick={() => setDropDown(!dropDown)}
           >
             <BiMenuAltLeft size={30} className="absolute top-3 left-2" />
             <span
-              className={`h-[100%] w-full flex justify-between items-center pl-10 bg-white font-sans text-lg font-[500] select-none rounded-t-md `}
+              className={`h-[100%] w-full flex justify-between items-center pl-12 bg-white font-sans text-lg font-[500] select-none rounded-t-md `}
             >
               {category ? `${category}` : 'All Categories'}
             </span>
             <IoIosArrowDown size={20} className="absolute right-2 top-4 cursor-pointer" />
-            {dropDown ? (
-              <DropDown categoriesData={categoriesData} setDropDown={setDropDown} />
-            ) : null}
+            {dropDown ? <DropDown setDropDown={setDropDown} /> : null}
           </div>
           {/* navItems */}
           <div className={`${styles.normalFlex}`}>
@@ -142,16 +154,16 @@ const Header = ({ activeHeading, category }) => {
                 onClick={() => setOpenWishList(true)}
               >
                 <AiOutlineHeart size={30} color="rgb(255 255 255 / 83%)" />
-                <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
-                  0
+                <span className="absolute -right-1 -top-1 rounded-full bg-[#3bc177] w-5 h-5 top right p-0 m-0 text-white text-[12px] flex items-center justify-center">
+                  {wishLists && wishLists.length}
                 </span>
               </div>
             </div>
             <div className={`${styles.normalFlex}`}>
               <div className="relative cursor-pointer mr-[15px]" onClick={() => setOpenCart(true)}>
                 <AiOutlineShoppingCart size={30} color="rgb(255 255 255 / 83%)" />
-                <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
-                  0
+                <span className="absolute -right-1 -top-1 rounded-full bg-[#3bc177] w-5 h-5 top right p-0 m-0 text-white text-[12px] flex items-center justify-center">
+                  {carts && carts.length}
                 </span>
               </div>
             </div>
@@ -160,7 +172,7 @@ const Header = ({ activeHeading, category }) => {
                 {isAuthenticated ? (
                   <Link to="/user/profile">
                     <img
-                      src={`${backendURL}${user.avatar}`}
+                      src={`${backendURL}/${user.avatar}`}
                       alt=""
                       className="w-[35px] h-[35px] rounded-full"
                     />
@@ -178,7 +190,9 @@ const Header = ({ activeHeading, category }) => {
 
       {/* mobile header */}
       <div
-        className={`${active === true ? 'shadow-sm fixed top-0 left-0 z-10' : null}
+        className={`${
+          active === true && !openWishList && !openCart ? 'shadow-sm fixed top-0 left-0 z-10' : null
+        }
       w-full h-[60px] bg-[#fff] z-50 top-0 left-0 shadow-sm 800px:hidden`}
       >
         <div className="w-full h-full flex items-center justify-between">
@@ -201,8 +215,8 @@ const Header = ({ activeHeading, category }) => {
           <div>
             <div className="relative mr-[20px] cursor-pointer" onClick={() => setOpenCart(true)}>
               <AiOutlineShoppingCart size={30} />
-              <span className="absolute -right-1 -top-1 rounded-full bg-[#3bc177] w-5 h-5 p-0 m-0 text-white font-mono text-[12px]  leading-tight text-center">
-                12
+              <span className="absolute -right-1 -top-1 rounded-full bg-[#3bc177] w-5 h-5 text-white text-[12px] text-center">
+                {carts && carts.length}
               </span>
             </div>
           </div>
@@ -214,17 +228,16 @@ const Header = ({ activeHeading, category }) => {
             <div className="fixed w-[60%] bg-[#fff] h-full top-0 left-0 z-10 overflow-y-scroll">
               <div className="w-full justify-between flex pr-3">
                 <div>
-                  <div className="relative mr-[15px] cursor-pointer">
-                    <AiOutlineHeart
-                      size={30}
-                      className="mt-5 ml-3"
-                      onClick={() => {
-                        setOpenWishList(true);
-                        setOpen(false);
-                      }}
-                    />
-                    <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px]  leading-tight text-center">
-                      0
+                  <div
+                    className="relative mr-[15px] cursor-pointer"
+                    onClick={() => {
+                      setOpenWishList(true);
+                      setOpen(false);
+                    }}
+                  >
+                    <AiOutlineHeart size={30} className="mt-5 ml-3" />
+                    <span className="absolute -right-1 -top-1 rounded-full bg-[#3bc177] text-white w-5 h-5 text-[12px] text-center">
+                      {wishLists && wishLists.length}
                     </span>
                   </div>
                 </div>
@@ -240,14 +253,19 @@ const Header = ({ activeHeading, category }) => {
                   onChange={handleSearchChange}
                 />
                 {searchData && (
-                  <div className="absolute bg-[#fff] z-10 shadow w-full left-0 p-3">
-                    {searchData.map((item) => {
-                      const d = item.name;
-                      const Product_name = d.replace(/\s+/g, '-');
+                  <div className="absolute bg-slate-300 z-10 shadow w-full mt-1 left-2 p-3 rounded-md">
+                    {searchData.map((item, index) => {
                       return (
-                        <Link to={`/product/${Product_name}`}>
-                          <div className="flex items-center">
-                            <img src={item.image_Url[0].url} alt="" className="w-[50px] mr-2" />
+                        <Link to={`/product/${item._id}`} key={index}>
+                          <div
+                            className="flex items-center text-[12px] mb-2"
+                            onClick={() => setOpen(false)}
+                          >
+                            <img
+                              src={`${backendURL}/${item.images[0]}`}
+                              alt=""
+                              className="w-[50px] mr-2"
+                            />
                             <h5>{item.name}</h5>
                           </div>
                         </Link>
@@ -274,7 +292,7 @@ const Header = ({ activeHeading, category }) => {
                   <div>
                     <Link to="/user/profile">
                       <img
-                        src={`${backendURL}${user.avatar}`}
+                        src={`${backendURL}/${user.avatar}`}
                         alt=""
                         className="w-[60px] h-[60px] rounded-full border-[3px] border-[#0eae88]"
                       />

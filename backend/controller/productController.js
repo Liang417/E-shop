@@ -7,7 +7,7 @@ const fs = require('fs');
 // Create new product
 const createProduct = catchAsyncError(async (req, res, next) => {
   try {
-    const shop = await Shop.findById(req.body.shopId);
+    const shop = await Shop.findById(req.body.shop);
     if (!shop) {
       throw new ErrorHandler('Shop Id is invalid', 404);
     } else {
@@ -39,9 +39,24 @@ const createProduct = catchAsyncError(async (req, res, next) => {
 });
 
 // Get all products of shop
+const getAllProductsOfShop = catchAsyncError(async (req, res, next) => {
+  try {
+    const shopProducts = await Product.find({ shop: req.params.id }).populate('shop');
+
+    res.status(201).json({
+      success: true,
+      shopProducts,
+    });
+  } catch (err) {
+    console.log(err);
+    return next(new ErrorHandler(err.message, 400, err));
+  }
+});
+
+// Get all products
 const getAllProducts = catchAsyncError(async (req, res, next) => {
   try {
-    const products = await Product.find({ shopId: req.params.id });
+    const products = await Product.find().populate('shop');
 
     res.status(201).json({
       success: true,
@@ -70,9 +85,9 @@ const deleteProduct = catchAsyncError(async (req, res, next) => {
       });
     });
 
-    const product = await Product.findByIdAndDelete(productId);
+    const deletedProduct = await Product.findByIdAndDelete(productId);
 
-    if (!product) {
+    if (!deletedProduct) {
       return next(new ErrorHandler('Product not found with this id', 404));
     }
     res.status(201).json('Product Deleted successfully');
@@ -81,4 +96,4 @@ const deleteProduct = catchAsyncError(async (req, res, next) => {
   }
 });
 
-module.exports = { createProduct, getAllProducts, deleteProduct };
+module.exports = { createProduct, getAllProductsOfShop, deleteProduct, getAllProducts };

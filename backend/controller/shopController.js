@@ -135,11 +135,11 @@ const loginSeller = catchAsyncError(async (req, res, next) => {
   }
 });
 
-// Get Seller
+// Get seller
 const getSeller = catchAsyncError(async (req, res, next) => {
   try {
-    // Find the seller with the provided seller ID
-    const seller = await Shop.findById(req.seller.id);
+    // If pass the sellerAuth middleware, we can directly get the seller from req.seller
+    const seller = req.seller;
 
     // If seller does not exist, return an error
     if (!seller) {
@@ -157,6 +157,19 @@ const getSeller = catchAsyncError(async (req, res, next) => {
   }
 });
 
+// Get seller information
+const getSellerInfo = catchAsyncError(async (req, res, next) => {
+  try {
+    const seller = await Shop.findById(req.params.id);
+    res.status(200).json({
+      success: true,
+      seller,
+    });
+  } catch (err) {
+    return next(new ErrorHandler(err.message, err.state || 500, err));
+  }
+});
+
 // logout seller
 const logoutSeller = catchAsyncError(async (req, res, next) => {
   try {
@@ -165,7 +178,7 @@ const logoutSeller = catchAsyncError(async (req, res, next) => {
       httpOnly: true,
     });
 
-    res.status(201).json({
+    res.status(200).json({
       success: true,
       message: 'Logged out successfully🙂',
     });
@@ -174,4 +187,11 @@ const logoutSeller = catchAsyncError(async (req, res, next) => {
   }
 });
 
-module.exports = { sendAuthEmail, createSeller, loginSeller, getSeller, logoutSeller };
+module.exports = {
+  sendAuthEmail,
+  createSeller,
+  loginSeller,
+  getSeller,
+  logoutSeller,
+  getSellerInfo,
+};

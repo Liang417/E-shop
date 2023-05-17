@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { categoriesData } from '../../static/data';
-import { createProduct, reset } from '../../redux/productSlice';
+import { createProduct, reset } from '../../redux/slice/productSlice';
 import { toast } from 'react-toastify';
 
 const CreateProduct = () => {
@@ -41,7 +41,7 @@ const CreateProduct = () => {
     newForm.append('originalPrice', originalPrice);
     newForm.append('discountPrice', discountPrice);
     newForm.append('stock', stock);
-    newForm.append('shopId', seller._id);
+    newForm.append('shop', seller._id);
     dispatch(createProduct(newForm));
   };
 
@@ -57,7 +57,7 @@ const CreateProduct = () => {
   }, [dispatch, navigate, error, success]);
 
   return (
-    <div className="w-[90%] 800px:w-[65%] bg-white  shadow h-full rounded-[4px] p-3 overflow-y-scroll">
+    <div className="w-[90%] 800px:w-[65%] bg-white  shadow h-full rounded-[4px] p-3 my-6 overflow-y-scroll">
       <h5 className="text-[30px] font-Poppins text-center">Create Product</h5>
       {/* create product form */}
       <form onSubmit={handleSubmit}>
@@ -72,7 +72,7 @@ const CreateProduct = () => {
             required
             className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your product name..."
+            placeholder="Enter your product name"
           />
         </div>
 
@@ -89,7 +89,7 @@ const CreateProduct = () => {
             value={description}
             className="mt-2 appearance-none block w-full pt-2 px-3 border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Enter your product description..."
+            placeholder="Enter your product description"
           ></textarea>
         </div>
 
@@ -123,7 +123,7 @@ const CreateProduct = () => {
             value={tags}
             className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             onChange={(e) => setTags(e.target.value)}
-            placeholder="Enter your product tags..."
+            placeholder="Enter your product tags"
           />
         </div>
 
@@ -140,7 +140,7 @@ const CreateProduct = () => {
             value={originalPrice}
             className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             onChange={(e) => setOriginalPrice(e.target.value)}
-            placeholder="Enter your product price..."
+            placeholder="Enter your product price"
           />
         </div>
 
@@ -154,7 +154,7 @@ const CreateProduct = () => {
             value={discountPrice}
             className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             onChange={(e) => setDiscountPrice(e.target.value)}
-            placeholder="Enter your product price with discount..."
+            placeholder="Enter your product price with discount"
           />
         </div>
 
@@ -170,7 +170,7 @@ const CreateProduct = () => {
             required
             className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             onChange={(e) => setStock(e.target.value)}
-            placeholder="Enter your product stock..."
+            placeholder="Enter your product stock"
           />
         </div>
 
@@ -204,7 +204,7 @@ const CreateProduct = () => {
             <input
               type="submit"
               value="Create"
-              className="mt-2 cursor-pointer appearance-none text-center block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="w-full h-[35px] bg-gray-200 mt-2 cursor-pointer appearance-none text-center  border border-gray-300 rounded-[3px] sm:text-sm"
             />
           </div>
         </div>

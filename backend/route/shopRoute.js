@@ -7,6 +7,7 @@ const {
   loginSeller,
   getSeller,
   logoutSeller,
+  getSellerInfo,
 } = require('../controller/shopController.js');
 const { sellerAuth } = require('../middleware/auth.js');
 
@@ -18,6 +19,8 @@ router.post('/create', createSeller);
 router.post('/login', loginSeller);
 // Get seller
 router.get('/getSeller', sellerAuth, getSeller);
+// Get seller information
+router.get('/getSellerInfo/:id', getSellerInfo);
 // Logout seller
 router.get('/logout', logoutSeller);
 

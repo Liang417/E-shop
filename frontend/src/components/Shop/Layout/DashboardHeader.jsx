@@ -13,13 +13,13 @@ const DashboardHeader = () => {
   return (
     <div className="w-full h-[80px] bg-white shadow sticky top-0 left-0 z-30 flex items-center justify-between px-4">
       <div>
-        <Link to="/shop/dashboard">
+        <Link to="/">
           <img src="https://shopo.quomodothemes.website/assets/images/logo.svg" alt="" />
         </Link>
       </div>
       <div className="flex items-center">
         <div className="flex items-center mr-4">
-          <Link to="/shop/dashboard/coupons" className="800px:block hidden">
+          <Link to="/shop/dashboard-coupons" className="800px:block hidden">
             <AiOutlineGift color="#555" size={30} className="mx-5 cursor-pointer" />
           </Link>
           <Link to="/shop/dashboard-events" className="800px:block hidden">
@@ -35,9 +35,9 @@ const DashboardHeader = () => {
             <BiMessageSquareDetail color="#555" size={30} className="mx-5 cursor-pointer" />
           </Link>
         </div>
-        <Link to={`/shop/${seller._id}`}>
+        <Link to={`/shop/profile/${seller._id}`}>
           <img
-            src={`${backendURL}${seller.avatar}`}
+            src={`${backendURL}/${seller.avatar}`}
             alt=""
             className="w-[50px] h-[50px] rounded-full object-cover"
           />

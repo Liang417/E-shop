@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { apiURL } from '../../apiConfig';
 import { toast } from 'react-toastify';
-import { loadSeller } from '../../redux/sellerSlice';
+import { loadSeller } from '../../redux/slice/sellerSlice';
 import { useDispatch } from 'react-redux';
 
 const ShopLogin = () => {

@@ -15,10 +15,14 @@ app.use('/', express.static('uploads'));
 const userRoute = require('./route/userRoute.js');
 const shopRoute = require('./route/shopRoute.js');
 const productRoute = require('./route/productRoute.js');
+const eventRoute = require('./route/eventRoute.js');
+const couponRoute = require('./route/couponRoute.js');
 
 app.use('/api/v2/user', userRoute);
 app.use('/api/v2/shop', shopRoute);
 app.use('/api/v2/product', productRoute);
+app.use('/api/v2/event', eventRoute);
+app.use('/api/v2/coupon', couponRoute);
 
 // Custom error handler middleware
 app.use(errorHandler);

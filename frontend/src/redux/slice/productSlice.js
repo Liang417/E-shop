@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { apiURL } from '../apiConfig';
+import { apiURL } from '../../apiConfig';
 
 export const createProduct = createAsyncThunk('product/createProduct', async (newForm) => {
   try {
@@ -12,9 +12,18 @@ export const createProduct = createAsyncThunk('product/createProduct', async (ne
   }
 });
 
-export const getAllProducts = createAsyncThunk('product/getAllProducts', async (id) => {
+export const getAllProductsOfShop = createAsyncThunk('product/getAllProductsOfShop', async (id) => {
   try {
     const { data } = await axios.get(`${apiURL}/product/all/${id}`);
+    return data.shopProducts;
+  } catch (err) {
+    throw new Error(err.response.data.message);
+  }
+});
+
+export const getAllProducts = createAsyncThunk('product/getAllProducts', async () => {
+  try {
+    const { data } = await axios.get(`${apiURL}/product/all`);
     return data.products;
   } catch (err) {
     throw new Error(err.response.data.message);
@@ -58,6 +67,17 @@ export const productSlice = createSlice({
       state.success = false;
       state.error = action.error.message;
     });
+    builder.addCase(getAllProductsOfShop.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getAllProductsOfShop.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.shopProducts = action.payload;
+    });
+    builder.addCase(getAllProductsOfShop.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.error.message;
+    });
     builder.addCase(getAllProducts.pending, (state) => {
       state.isLoading = true;
     });
@@ -79,7 +99,6 @@ export const productSlice = createSlice({
     });
     builder.addCase(deleteProduct.rejected, (state, action) => {
       state.isLoading = false;
-      console.log(action);
       state.error = action.error.message;
     });
   },
