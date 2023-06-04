@@ -103,7 +103,9 @@ const Header = ({ activeHeading, category }) => {
                             alt=""
                             className="w-[40px] h-[40px] mr-[10px]"
                           />
-                          <h1>{item.name}</h1>
+                          <h1>
+                            {item.name.length > 50 ? item.name.slice(0, 50) + '...' : item.name}
+                          </h1>
                         </div>
                       </Link>
                     );
@@ -251,7 +253,7 @@ const Header = ({ activeHeading, category }) => {
                   onChange={handleSearchChange}
                 />
                 {searchData && (
-                  <div className="absolute bg-slate-300 z-10 shadow w-full mt-1 left-2 p-3 rounded-md">
+                  <div className="absolute bg-slate-300 z-10 shadow w-[95%] mt-1 left-2 p-3 rounded-md">
                     {searchData.map((item, index) => {
                       return (
                         <Link to={`/product/${item._id}`} key={index}>
@@ -264,7 +266,9 @@ const Header = ({ activeHeading, category }) => {
                               alt=""
                               className="w-[50px] mr-2"
                             />
-                            <h5>{item.name}</h5>
+                            <h5 className="w-[75%] break-words">
+                              {item.name.length > 50 ? item.name.slice(0, 50) + '...' : item.name}
+                            </h5>
                           </div>
                         </Link>
                       );

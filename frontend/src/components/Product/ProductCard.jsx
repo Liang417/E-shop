@@ -48,7 +48,7 @@ const ProductCard = ({ data }) => {
 
   return (
     <>
-      <div className="w-full h-[370px] bg-white rounded-lg shadow p-3 relative cursor-pointer hover:border-2 hover:border-indigo-500 text-[0.85rem] xl:text-[1rem]">
+      <div className="w-full h-[400px] bg-white rounded-lg shadow p-3 relative cursor-pointer hover:border-2 hover:border-indigo-500 text-[0.85rem] xl:text-[1rem]">
         <Link to={`/product/${data._id}`}>
           <img
             src={`${backendURL}/${data.images && data.images[0]}`}
@@ -60,8 +60,8 @@ const ProductCard = ({ data }) => {
           <h5 className={`${styles.shop_name}`}>{data.shop.name}</h5>
         </Link>
         <Link to={`/product/${data._id}`}>
-          <h4 className="pb-3 font-[500]">
-            {data.name.length > 40 ? data.name.slice(0, 40) + '...' : data.name}
+          <h4 className="pb-3 font-[500] break-words">
+            {data.name.length > 50 ? data.name.slice(0, 50) + '...' : data.name}
           </h4>
           <div className="flex justify-between">
             <Ratings rating={data?.ratings} />

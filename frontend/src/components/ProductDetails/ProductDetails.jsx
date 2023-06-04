@@ -100,8 +100,16 @@ const ProductDetails = ({ data }) => {
                 </div>
               </div>
               <div className="w-full 800px:w-[50%] pt-5">
-                <h1 className={`${styles.productTitle} leading-tight p-3 mb-2`}>{data.name}</h1>
-                <p>{data.description}</p>
+                <h1
+                  className={`${styles.productTitle} leading-tight p-3 mb-2 max-w-[100%] break-words`}
+                >
+                  {data.name}
+                </h1>
+
+                <p className="block max-h-[400px] whitespace-pre-line overflow-y-clip">
+                  {data.description}
+                </p>
+
                 <div className="flex flex-col pt-5 items-end ">
                   <h4 className={`${styles.price} !text-[1.2rem] mb-2`}>
                     {data.discountPrice ? data.originalPrice.toLocaleString() + '$' : null}
@@ -114,7 +122,7 @@ const ProductDetails = ({ data }) => {
                   </h4>
                 </div>
 
-                <div className="flex items-center mt-12 justify-between pr-3">
+                <div className="flex items-center mt-5 justify-between pr-3">
                   <div>
                     <button
                       className="bg-gradient-to-l from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
