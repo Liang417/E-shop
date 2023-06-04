@@ -4,7 +4,6 @@ const couponSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Please enter your coupon name'],
-    unique: true,
   },
   couponCode: {
     type: String,
@@ -23,7 +22,7 @@ const couponSchema = new mongoose.Schema({
   maxDiscount: {
     type: Number,
   },
-  shopId: {
+  shop: {
     type: mongoose.Schema.ObjectId,
     ref: 'Shop',
     required: true,

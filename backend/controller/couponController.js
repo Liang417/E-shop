@@ -6,8 +6,8 @@ const Shop = require('../model/shopModel.js');
 // Create coupon code
 const createCoupon = catchAsyncError(async (req, res, next) => {
   try {
-    const { name } = req.body;
-    const coupon = await Coupon.findOne({ name });
+    const { couponCode } = req.body;
+    const coupon = await Coupon.findOne({ couponCode });
 
     if (coupon) {
       throw new ErrorHandler('This coupon already exists', 409);
@@ -27,12 +27,29 @@ const createCoupon = catchAsyncError(async (req, res, next) => {
 
 const getAllCoupons = catchAsyncError(async (req, res, next) => {
   try {
-    const { shopId } = req.params;
-    const coupons = await Coupon.find({ shopId });
+    const shop = req.params.shopId;
+    const coupons = await Coupon.find({ shop });
 
     res.status(200).json({
       success: true,
       coupons,
+    });
+  } catch (err) {
+    return next(new ErrorHandler(err.message, err.status || 400, err));
+  }
+});
+
+const getCoupon = catchAsyncError(async (req, res, next) => {
+  try {
+    const coupon = await Coupon.findOne(req.params).populate('shop');
+    
+    if (!coupon) {
+      throw new ErrorHandler('Invalid coupon code.', 404);
+    }
+
+    res.status(200).json({
+      success: true,
+      coupon,
     });
   } catch (err) {
     return next(new ErrorHandler(err.message, err.status || 400, err));
@@ -57,4 +74,4 @@ const deleteCoupon = catchAsyncError(async (req, res, next) => {
   }
 });
 
-module.exports = { createCoupon, getAllCoupons, deleteCoupon };
+module.exports = { createCoupon, getAllCoupons, deleteCoupon, getCoupon };

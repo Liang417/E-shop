@@ -102,11 +102,16 @@ const ProductDetails = ({ data }) => {
               <div className="w-full 800px:w-[50%] pt-5">
                 <h1 className={`${styles.productTitle} leading-tight p-3 mb-2`}>{data.name}</h1>
                 <p>{data.description}</p>
-                <div className="flex pt-3">
-                  <h4 className={`${styles.productDiscountPrice}`}>{data.discountPrice}$</h4>
-                  <h3 className={`${styles.price}`}>
-                    {data.originalPrice ? data.originalPrice + '$' : null}
-                  </h3>
+                <div className="flex flex-col pt-5 items-end ">
+                  <h4 className={`${styles.price} !text-[1.2rem] mb-2`}>
+                    {data.discountPrice ? data.originalPrice.toLocaleString() + '$' : null}
+                  </h4>
+                  <h4 className={`${styles.productDiscountPrice} !text-[1.5rem]`}>
+                    {data.discountPrice
+                      ? data.discountPrice.toLocaleString()
+                      : data.originalPrice.toLocaleString()}
+                    $
+                  </h4>
                 </div>
 
                 <div className="flex items-center mt-12 justify-between pr-3">

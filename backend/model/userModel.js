@@ -17,6 +17,9 @@ const userSchema = new mongoose.Schema({
     minLength: [6, 'Password should be greater then 6 characters'],
     select: false,
   },
+  phoneNumber: {
+    type: Number,
+  },
   address: [
     {
       country: {
@@ -25,10 +28,7 @@ const userSchema = new mongoose.Schema({
       city: {
         type: String,
       },
-      address1: {
-        type: String,
-      },
-      address2: {
+      address: {
         type: String,
       },
       zipCode: {

@@ -1,2 +1,2 @@
-export const backendURL = 'http://localhost:8080';
-export const apiURL = 'http://localhost:8080/api/v2';
+export const backendURL = 'http://ec2-18-141-164-122.ap-southeast-1.compute.amazonaws.com';
+export const apiURL = 'http://ec2-18-141-164-122.ap-southeast-1.compute.amazonaws.com/api/v2';

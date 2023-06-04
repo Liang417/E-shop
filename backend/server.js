@@ -10,7 +10,7 @@ process.on('uncaughtException', (err) => {
 // Configuration
 if (process.env.NODE_ENV !== 'PRODUCTION') {
   // Load environment variables from .env file in development mode
-  require('dotenv').config({ path: 'backend/config/.env' });
+  require('dotenv').config({ path: '../.env' });
 }
 
 // Connect to MongoDB
@@ -24,7 +24,7 @@ mongoose
   });
 
 // Create server
-const server = app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT || 8080, () => {
   console.log(`Sever is running on http://localhost:${process.env.PORT}`);
 });
 

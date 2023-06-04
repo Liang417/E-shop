@@ -16,6 +16,7 @@ import { loadSeller } from '../../../redux/slice/sellerSlice';
 
 const DashboardSideBar = ({ active }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const logoutHandler = async () => {
     axios
@@ -23,7 +24,7 @@ const DashboardSideBar = ({ active }) => {
       .then((res) => {
         dispatch(loadSeller());
         toast.success(res.data.message);
-        window.location.replace('/');
+        navigate('/');
       })
       .catch((err) => {
         toast.error(err.response.data.message);
@@ -112,20 +113,7 @@ const DashboardSideBar = ({ active }) => {
       </div>
 
       <div className="w-full flex items-center p-3 hover:bg-gray-200">
-        <Link to="/shop/dashboard-withdraw-money" className="w-full flex items-center">
-          <CiMoneyBill size={30} color={`${active === 7 ? 'crimson' : '#555'}`} />
-          <h5
-            className={`hidden 800px:block pl-2 text-[12px] md:text-[16px] font-[400] ${
-              active === 7 ? 'text-[crimson]' : 'text-[#555]'
-            }`}
-          >
-            Withdraw Money
-          </h5>
-        </Link>
-      </div>
-
-      <div className="w-full flex items-center p-3 hover:bg-gray-200">
-        <Link to="/shop/dashboard-messages" className="w-full flex items-center">
+        <Link to="/shop/dashboard-inbox" className="w-full flex items-center">
           <BiMessageSquareDetail size={30} color={`${active === 8 ? 'crimson' : '#555'}`} />
           <h5
             className={`hidden 800px:block pl-2 text-[12px] md:text-[16px] font-[400] ${
@@ -164,14 +152,14 @@ const DashboardSideBar = ({ active }) => {
       </div>
 
       <div className="w-full flex items-center p-3 hover:bg-gray-200">
-        <Link to="/shop/settings" className="w-full flex items-center">
+        <Link to="/shop/setting" className="w-full flex items-center">
           <CiSettings size={30} color={`${active === 11 ? 'crimson' : '#555'}`} />
           <h5
             className={`hidden 800px:block pl-2 text-[12px] md:text-[16px] font-[400] ${
               active === 11 ? 'text-[crimson]' : 'text-[#555]'
             }`}
           >
-            Settings
+            Setting
           </h5>
         </Link>
       </div>

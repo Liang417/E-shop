@@ -67,7 +67,8 @@ const CartCard = ({ data }) => {
         <div className="pl-[5px]">
           <h1 className="text-sm">{data.name}</h1>
           <h4 className="font-400 text-end text-gray-400">
-            ${data.discountPrice || data.originalPrice} * {value}
+            ${data?.discountPrice?.toLocaleString() || data?.originalPrice?.toLocaleString()} *
+            {value}
           </h4>
           <h4 className="text-end font-[600] text-[17px] pt-[3px] text-[#d02222] font-Roboto">
             US$ {totalPrice}

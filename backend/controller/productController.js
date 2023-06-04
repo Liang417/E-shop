@@ -3,6 +3,7 @@ const catchAsyncError = require('../middleware/catchAsyncError.js');
 const Product = require('../model/productModel.js');
 const Shop = require('../model/shopModel.js');
 const fs = require('fs');
+const Order = require('../model/orderModel.js');
 
 // Create new product
 const createProduct = catchAsyncError(async (req, res, next) => {
@@ -41,7 +42,9 @@ const createProduct = catchAsyncError(async (req, res, next) => {
 // Get all products of shop
 const getAllProductsOfShop = catchAsyncError(async (req, res, next) => {
   try {
-    const shopProducts = await Product.find({ shop: req.params.id }).populate('shop');
+    const shopProducts = await Product.find({ shop: req.params.id })
+      .populate('shop')
+      .populate('reviews.user');
 
     res.status(201).json({
       success: true,
@@ -56,8 +59,7 @@ const getAllProductsOfShop = catchAsyncError(async (req, res, next) => {
 // Get all products
 const getAllProducts = catchAsyncError(async (req, res, next) => {
   try {
-    const products = await Product.find().populate('shop');
-
+    const products = await Product.find().populate('shop').populate('reviews.user');
     res.status(201).json({
       success: true,
       products,
@@ -96,4 +98,50 @@ const deleteProduct = catchAsyncError(async (req, res, next) => {
   }
 });
 
-module.exports = { createProduct, getAllProductsOfShop, deleteProduct, getAllProducts };
+// Create review of product
+const createProductReview = catchAsyncError(async (req, res, next) => {
+  try {
+    const { rating, comment, userId, productId, orderId } = req.body;
+    const newReview = {
+      userId,
+      rating,
+      comment,
+      productId,
+    };
+
+    const product = await Product.findById(productId);
+    product.reviews.push(newReview);
+
+    let avg = 0;
+
+    product.reviews.forEach((review) => {
+      avg += review.rating;
+    });
+
+    product.ratings = (avg / product.reviews.length).toFixed(1);
+
+    await product.save();
+
+    await Order.findByIdAndUpdate(
+      orderId,
+      { $set: { 'products.$[elem].isReviewed': true } },
+      { arrayFilters: [{ 'elem._id': productId }], new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Reviewed successfully🙂',
+    });
+  } catch (err) {
+    console.log(err);
+    return next(new ErrorHandler(err.message, err.status || 400, err));
+  }
+});
+
+module.exports = {
+  createProduct,
+  getAllProductsOfShop,
+  deleteProduct,
+  getAllProducts,
+  createProductReview,
+};

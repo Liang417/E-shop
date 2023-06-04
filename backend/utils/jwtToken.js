@@ -6,7 +6,8 @@ const sendUserToken = (user, statusCode, res) => {
   const options = {
     expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
     httpOnly: true, // the cookie can only be accessed by the server
-    Secure: true, // the cookie will only be sent over HTTPS
+    // secure: true, // the cookie will only be sent over HTTPS
+    // sameSite: 'none',
   };
   res.status(statusCode).cookie('user_token', userToken, options).json({
     success: true,
@@ -22,7 +23,8 @@ const sendSellerToken = (seller, statusCode, res) => {
   const options = {
     expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
     httpOnly: true, // the cookie can only be accessed by the server
-    Secure: true, // the cookie will only be sent over HTTPS
+    // secure: true, // the cookie will only be sent over HTTPS
+    // sameSite: 'none',
   };
   res.status(statusCode).cookie('seller_token', sellerToken, options).json({
     success: true,

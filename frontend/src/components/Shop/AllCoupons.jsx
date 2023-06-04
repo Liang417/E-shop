@@ -62,7 +62,7 @@ const AllCoupons = () => {
           percentage,
           minDiscount,
           maxDiscount,
-          shopId: seller._id,
+          shop: seller._id,
         },
         { withCredentials: true }
       )

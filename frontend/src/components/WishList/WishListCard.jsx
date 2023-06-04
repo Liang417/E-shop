@@ -37,7 +37,7 @@ const WishListCard = ({ data }) => {
         <div className="max-w-[270px] ml-3">
           <h1 className="">{data.name.length > 70 ? data.name.slice(0, 70) + '...' : data.name}</h1>
           <h4 className="font-[600] text-[17px] pt-[3px] text-[#d02222] font-Roboto">
-            US$ {data.discountPrice || data.originalPrice}
+            US$ {data?.discountPrice?.toLocaleString() || data?.originalPrice?.toLocaleString()}
           </h4>
         </div>
         <div>

@@ -138,8 +138,8 @@ const AllEvents = () => {
         id: item._id,
         name: item.name,
         description: item.description,
-        originalPrice: `${item.originalPrice} $`,
-        discountPrice: `${item.discountPrice} $`,
+        originalPrice: `${item.originalPrice.toLocaleString()} $`,
+        discountPrice: `${item.discountPrice.toLocaleString()} $`,
         Stock: item.stock,
         sold: item?.sold_out,
       });

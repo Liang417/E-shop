@@ -8,6 +8,8 @@ const {
   getSeller,
   logoutSeller,
   getSellerInfo,
+  updateSeller,
+  updateSellerAvatar,
 } = require('../controller/shopController.js');
 const { sellerAuth } = require('../middleware/auth.js');
 
@@ -17,6 +19,10 @@ router.post('/signup', upload.single('file'), sendAuthEmail);
 router.post('/create', createSeller);
 // Login seller
 router.post('/login', loginSeller);
+// Update seller info
+router.put('/update', sellerAuth, updateSeller);
+// Update seller avatar
+router.put('/update-avatar', sellerAuth, upload.single('avatar'), updateSellerAvatar);
 // Get seller
 router.get('/getSeller', sellerAuth, getSeller);
 // Get seller information

@@ -16,8 +16,8 @@ const ShopProfilePage = () => {
 
   return (
     <div className={`${styles.section} bg-[#f5f5f5]`}>
-      <div className="w-full sm:flex py-10 justify-between">
-        <div className="w-[100%] sm:h-[90vh] mb-5 sm:w-[28%] sm:sticky sm:top-10 sm:left-0 sm:z-10 bg-[#fff] rounded-[4px] shadow-sm overflow-y-scroll ">
+      <div className="w-full sm:flex py-5">
+        <div className="w-[100%] sm:w-[25%] lg:w-[40%] sm:min-w-[320px] min-h-[90vh] max-h-[90vh] mr-5 sm:sticky sm:top-10 sm:left-0 sm:z-10 bg-[#fff] rounded-[4px] shadow-sm overflow-y-scroll mb-5">
           <ShopInfo isOwner={isOwner} />
         </div>
         <div className="w-[100%] sm:w-[70%] rounded-[4px]">

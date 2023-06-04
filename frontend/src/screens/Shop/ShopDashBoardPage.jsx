@@ -7,7 +7,7 @@ const ShopDashBoardPage = () => {
   return (
     <div>
       <DashboardHeader />
-      <div className="flex items-start justify-between w-full">
+      <div className="flex items-start w-full">
         <div className="w-[50px] 800px:w-[330px] sticky top-20">
           <DashboardSideBar active={1} />
         </div>

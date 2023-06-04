@@ -9,9 +9,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import Loader from '../Layout/Loader';
 
 const AllProducts = () => {
-  const { shopProducts, isLoading, success, error, message } = useSelector(
-    (state) => state.product
-  );
+  const { shopProducts, isLoading, error } = useSelector((state) => state.product);
   const { seller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
 
@@ -19,23 +17,14 @@ const AllProducts = () => {
     dispatch(deleteProduct(id));
   };
 
-  // get all shopProducts
-  useEffect(() => {
-    dispatch(getAllProductsOfShop(seller._id));
-  }, [dispatch, seller._id]);
-
-  // for error change
+  // get all products of shop
   useEffect(() => {
     if (error) {
       toast.error(error);
       dispatch(reset());
     }
-    //   if (success) {
-    //     toast.success(message);
-    //     dispatch(reset());
-    //     dispatch(getAllProductsOfShop(seller._id));
-    //   }
-  }, [dispatch, error, success, message, seller._id]);
+    dispatch(getAllProductsOfShop(seller._id));
+  }, [dispatch, seller._id, error]);
 
   const columns = [
     {
@@ -130,7 +119,7 @@ const AllProducts = () => {
       rows.push({
         id: item._id,
         name: item.name,
-        price: item.discountPrice,
+        price: item.discountPrice?.toLocaleString() || item.originalPrice.toLocaleString(),
         Stock: item.stock,
         sold: item?.sold_out,
       });

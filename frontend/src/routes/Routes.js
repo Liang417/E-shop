@@ -9,6 +9,9 @@ import FAQPage from '../screens/FAQPage.jsx';
 import ProductDetailsPage from '../screens/ProductDetailsPage.jsx';
 import ProfilePage from '../screens/ProfilePage.jsx';
 import CheckoutPage from '../screens/CheckoutPage.jsx';
+import PaymentPage from '../screens/PaymentPage.jsx';
+import OrderSuccessPage from '../screens/OrderSuccessPage.jsx';
+import UserOrderDetailPage from '../screens/UserOrderDetailPage.jsx';
 
 export {
   LoginPage,
@@ -22,4 +25,7 @@ export {
   ProductDetailsPage,
   ProfilePage,
   CheckoutPage,
+  PaymentPage,
+  OrderSuccessPage,
+  UserOrderDetailPage,
 };

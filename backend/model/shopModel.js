@@ -44,12 +44,13 @@ const ShopSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-  products: [
-    {
-      type: mongoose.Schema.ObjectId,
-      ref: 'Product',
-    },
-  ],
+  withdrawMethod: {
+    type: Object,
+  },
+  availableBalance: {
+    type: Number,
+    default: 0,
+  },
   resetPasswordToken: String,
   resetPasswordTime: Date,
 });

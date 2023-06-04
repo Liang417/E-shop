@@ -193,10 +193,12 @@ export const categoriesData = [
   },
   {
     id: 2,
-    title: 'Cosmetics and body care',
+    title: 'Workshop',
     subTitle: '',
-    image_Url: 'https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/2021-07/kosme1.png',
+    image_Url:
+      'https://img.freepik.com/free-vector/managers-workshop-training-manager-skills-brainstorming-board_335657-3305.jpg?w=2000',
   },
+
   {
     id: 3,
     title: 'Accessories',
@@ -219,9 +221,9 @@ export const categoriesData = [
   },
   {
     id: 6,
-    title: 'Gifts',
+    title: 'Cosmetics and body care',
     subTitle: '',
-    image_Url: 'https://cdn-icons-png.flaticon.com/512/6361/6361288.png',
+    image_Url: 'https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/2021-07/kosme1.png',
   },
   {
     id: 7,

@@ -112,13 +112,13 @@ const Header = ({ activeHeading, category }) => {
             ) : null}
           </div>
           {/* become seller button */}
-          <div className={`${styles.button}`}>
-            <Link to={seller ? `/shop/profile/${seller._id}` : '/shop/sign-up'}>
+          <Link to={seller ? `/shop/profile/${seller._id}` : '/shop/sign-up'}>
+            <div className={`${styles.button}`}>
               <h1 className="text-[#fff] flex items-center">
                 {seller ? 'My Shop' : 'Become Seller'} <IoIosArrowForward className="ml-1" />
               </h1>
-            </Link>
-          </div>
+            </div>
+          </Link>
         </div>
       </div>
       {/* If active = true, fixed the navbar*/}
@@ -190,9 +190,7 @@ const Header = ({ activeHeading, category }) => {
 
       {/* mobile header */}
       <div
-        className={`${
-          active === true && !openWishList && !openCart ? 'shadow-sm fixed top-0 left-0 z-10' : null
-        }
+        className={`${!openWishList && !openCart ? 'shadow-sm fixed top-0 left-0 z-10' : null}
       w-full h-[60px] bg-[#fff] z-50 top-0 left-0 shadow-sm 800px:hidden`}
       >
         <div className="w-full h-full flex items-center justify-between">
@@ -283,8 +281,6 @@ const Header = ({ activeHeading, category }) => {
                   </h1>
                 </Link>
               </div>
-              <br />
-              <br />
               <br />
 
               <div className="flex w-full justify-center">

@@ -1,11 +1,4 @@
-import {
-  AiFillHeart,
-  AiFillStar,
-  AiOutlineEye,
-  AiOutlineHeart,
-  AiOutlineShoppingCart,
-  AiOutlineStar,
-} from 'react-icons/ai';
+import { AiFillHeart, AiOutlineEye, AiOutlineHeart, AiOutlineShoppingCart } from 'react-icons/ai';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../../styles/styles';
@@ -15,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToWishList, removeFromWishList } from '../../redux/slice/wishListSlice';
 import { toast } from 'react-toastify';
 import { addToCart } from '../../redux/slice/cartSlice';
+import Ratings from './Rating';
 
 const ProductCard = ({ data }) => {
   const { wishLists } = useSelector((state) => state.wishList);
@@ -54,7 +48,7 @@ const ProductCard = ({ data }) => {
 
   return (
     <>
-      <div className="w-full h-[370px] bg-white rounded-lg shadow p-3 relative cursor-pointer hover:border-2 hover:border-indigo-500">
+      <div className="w-full h-[370px] bg-white rounded-lg shadow p-3 relative cursor-pointer hover:border-2 hover:border-indigo-500 text-[0.85rem] xl:text-[1rem]">
         <Link to={`/product/${data._id}`}>
           <img
             src={`${backendURL}/${data.images && data.images[0]}`}
@@ -69,22 +63,21 @@ const ProductCard = ({ data }) => {
           <h4 className="pb-3 font-[500]">
             {data.name.length > 40 ? data.name.slice(0, 40) + '...' : data.name}
           </h4>
-          <div className="flex">
-            <AiFillStar className="mr-1 text-yellow-400 text-xl" />
-            <AiFillStar className="mr-1 text-yellow-400 text-xl" />
-            <AiFillStar className="mr-1 text-yellow-400 text-xl" />
-            <AiFillStar className="mr-1 text-yellow-400 text-xl" />
-            <AiOutlineStar className="mr-1 text-yellow-400 text-xl" />
+          <div className="flex justify-between">
+            <Ratings rating={data?.ratings} />
           </div>
           <div className="py-2 flex items-center justify-between">
             <span className="font-[400] text-[17px] text-emerald-500">{data.sold_out} sold</span>
-            <div className="flex">
+            <div>
               <h4 className={`${styles.price}`}>
-                {data.originalPrice ? data.originalPrice + ' $' : null}
+                {data.discountPrice ? data.originalPrice.toLocaleString() + '$' : null}
               </h4>
-              <h5 className={`${styles.productDiscountPrice}`}>
-                {data.originalPrice === 0 ? data.originalPrice : data.discountPrice}$
-              </h5>
+              <h4 className={`${styles.productDiscountPrice}`}>
+                {data.discountPrice
+                  ? data.discountPrice.toLocaleString()
+                  : data.originalPrice.toLocaleString()}
+                $
+              </h4>
             </div>
           </div>
         </Link>

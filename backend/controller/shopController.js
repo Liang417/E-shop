@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const { sendSellerToken } = require('../utils/jwtToken.js');
 const sendMail = require('../utils/sendMail.js');
 const ErrorHandler = require('../utils/ErrorHandler.js');
+require('dotenv').config({ path: '../../.env' });
 
 // Create activation token
 function createActivationToken(seller) {
@@ -49,7 +50,7 @@ const sendAuthEmail = catchAsyncError(async (req, res, next) => {
     const activationToken = createActivationToken(seller);
 
     // Create an activation URL with the activation token
-    const activationUrl = `http://localhost:3000/shop/activation/${activationToken}`;
+    const activationUrl = `${process.env.AWS_IPv4}/shop/activation/${activationToken}`;
 
     // Send an activation email to the seller with the activation URL
     try {
@@ -68,7 +69,7 @@ const sendAuthEmail = catchAsyncError(async (req, res, next) => {
       return next(new ErrorHandler(err.message, 500, err));
     }
   } catch (err) {
-    return next(new ErrorHandler(err.message, 400, err));
+    return next(new ErrorHandler(err.message, err.status || 500, err));
   }
 });
 
@@ -99,7 +100,7 @@ const createSeller = catchAsyncError(async (req, res, next) => {
     // Create a token and send it back to the client
     sendSellerToken(newSeller, 201, res);
   } catch (err) {
-    return next(new ErrorHandler(err.message, 500, err));
+    return next(new ErrorHandler(err.message, err.status || 500, err));
   }
 });
 
@@ -131,7 +132,7 @@ const loginSeller = catchAsyncError(async (req, res, next) => {
     sendSellerToken(seller, 201, res);
   } catch (err) {
     // If there is an error, pass it to the error handler middleware
-    return next(new ErrorHandler(err.message, 500, err));
+    return next(new ErrorHandler(err.message, err.status || 500, err));
   }
 });
 
@@ -153,7 +154,7 @@ const getSeller = catchAsyncError(async (req, res, next) => {
     });
   } catch (err) {
     // If there is an error, pass it to the error handler middleware
-    return next(new ErrorHandler(err.message, 500, err));
+    return next(new ErrorHandler(err.message, err.status || 500, err));
   }
 });
 
@@ -166,7 +167,7 @@ const getSellerInfo = catchAsyncError(async (req, res, next) => {
       seller,
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, err.state || 500, err));
+    return next(new ErrorHandler(err.message, err.status || 500, err));
   }
 });
 
@@ -176,6 +177,8 @@ const logoutSeller = catchAsyncError(async (req, res, next) => {
     res.cookie('seller_token', null, {
       expires: new Date(Date.now()),
       httpOnly: true,
+      // secure: true,
+      // sameSite: 'none',
     });
 
     res.status(200).json({
@@ -183,7 +186,65 @@ const logoutSeller = catchAsyncError(async (req, res, next) => {
       message: 'Logged out successfully🙂',
     });
   } catch (err) {
-    return next(new ErrorHandler(err.message, 500, err));
+    return next(new ErrorHandler(err.message, err.status || 500, err));
+  }
+});
+
+// Update seller avatar
+const updateSellerAvatar = catchAsyncError(async (req, res, next) => {
+  try {
+    const seller = await Shop.findById(req.seller.id);
+
+    const existAvatarPath = `uploads/${seller.avatar}`;
+
+    fs.unlinkSync(existAvatarPath);
+
+    const fileUrl = path.join(req.file.filename);
+
+    const updatedSeller = await Shop.findByIdAndUpdate(
+      req.seller.id,
+      {
+        avatar: fileUrl,
+      },
+      { new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      seller: updatedSeller,
+    });
+  } catch (err) {
+    return next(new ErrorHandler(err.message, err.status || 500, err));
+  }
+});
+
+// Update seller info
+const updateSeller = catchAsyncError(async (req, res, next) => {
+  try {
+    const { name, address, phoneNumber, description, zipCode } = req.body;
+
+    const updatedSeller = await Shop.findOneAndUpdate(
+      req.seller.id,
+      {
+        name,
+        address,
+        phoneNumber,
+        description,
+        zipCode,
+      },
+      { new: true }
+    );
+
+    if (!updatedSeller) {
+      throw new ErrorHandler('Seller not found', 404);
+    }
+
+    res.status(200).json({
+      success: true,
+      seller: updatedSeller,
+    });
+  } catch (err) {
+    return next(new ErrorHandler(err.message, err.status || 500, err));
   }
 });
 
@@ -194,4 +255,6 @@ module.exports = {
   getSeller,
   logoutSeller,
   getSellerInfo,
+  updateSellerAvatar,
+  updateSeller,
 };

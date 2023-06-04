@@ -54,53 +54,57 @@ export const eventSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(createEvent.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(createEvent.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.success = true;
-      state.event = action.payload;
-    });
-    builder.addCase(createEvent.rejected, (state, action) => {
-      state.isLoading = false;
-      state.success = false;
-      state.error = action.error.message;
-    });
-    builder.addCase(getAllEvents.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getAllEvents.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.events = action.payload;
-    });
-    builder.addCase(getAllEvents.rejected, (state, action) => {
-      state.isLoading = false;
-      state.error = action.error.message;
-    });
-    builder.addCase(getShopEvents.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getShopEvents.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.shopEvents = action.payload;
-    });
-    builder.addCase(getShopEvents.rejected, (state, action) => {
-      state.isLoading = false;
-      state.error = action.error.message;
-    });
-    builder.addCase(deleteEvent.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(deleteEvent.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.success = true;
-      state.message = action.payload;
-    });
-    builder.addCase(deleteEvent.rejected, (state, action) => {
-      state.isLoading = false;
-      state.error = action.error.message;
-    });
+    builder
+      .addCase(createEvent.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createEvent.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.success = true;
+        state.event = action.payload;
+      })
+      .addCase(createEvent.rejected, (state, action) => {
+        state.isLoading = false;
+        state.success = false;
+        state.error = action.error.message;
+      });
+    builder
+      .addCase(getAllEvents.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllEvents.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.events = action.payload;
+      })
+      .addCase(getAllEvents.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      });
+    builder
+      .addCase(getShopEvents.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getShopEvents.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.shopEvents = action.payload;
+      })
+      .addCase(getShopEvents.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      });
+    builder
+      .addCase(deleteEvent.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteEvent.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.success = true;
+        state.message = action.payload;
+      })
+      .addCase(deleteEvent.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      });
   },
 });
 
