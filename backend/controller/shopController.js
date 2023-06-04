@@ -202,7 +202,7 @@ const updateSellerAvatar = catchAsyncError(async (req, res, next) => {
     const fileUrl = path.join(req.file.filename);
 
     const updatedSeller = await Shop.findByIdAndUpdate(
-      req.seller.id,
+      { _id: req.seller.id },
       {
         avatar: fileUrl,
       },
@@ -224,7 +224,7 @@ const updateSeller = catchAsyncError(async (req, res, next) => {
     const { name, address, phoneNumber, description, zipCode } = req.body;
 
     const updatedSeller = await Shop.findOneAndUpdate(
-      req.seller.id,
+      { _id: req.seller.id },
       {
         name,
         address,

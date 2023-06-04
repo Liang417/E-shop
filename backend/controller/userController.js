@@ -218,7 +218,7 @@ const updateUserAvatar = catchAsyncError(async (req, res, next) => {
     const fileUrl = path.join(req.file.filename);
 
     const updatedUser = await User.findByIdAndUpdate(
-      req.user.id,
+      { _id: req.user.id },
       {
         avatar: fileUrl,
       },
