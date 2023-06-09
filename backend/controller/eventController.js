@@ -56,7 +56,7 @@ const getAllEvents = catchAsyncError(async (req, res, next) => {
 // Get all events of shop
 const getShopEvents = catchAsyncError(async (req, res, next) => {
   try {
-    const shopEvents = await Event.find({ shopId: req.params.id });
+    const shopEvents = await Event.find({ shop: req.params.id });
 
     res.status(201).json({
       success: true,

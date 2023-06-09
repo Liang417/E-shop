@@ -15,7 +15,7 @@ const DashboardHero = () => {
   const dispatch = useDispatch();
   const { shop_orders } = useSelector((state) => state.order);
   const { seller } = useSelector((state) => state.seller);
-  const { products } = useSelector((state) => state.product);
+  const { shopProducts } = useSelector((state) => state.product);
 
   useEffect(() => {
     dispatch(getAllOrdersOfShop(seller._id));
@@ -102,25 +102,20 @@ const DashboardHero = () => {
         <div className="w-full mb-4 800px:w-[30%] min-h-[20vh] bg-white shadow rounded p-3">
           <div className="flex items-center">
             <BiMoneyWithdraw size={30} className="mr-2" fill="#00000085" />
-            <h3
-              className={`${styles.productTitle} !text-[18px] !font-[400] text-[#00000085]`}
-            >
+            <h3 className={`${styles.productTitle} !text-[18px] !font-[400] text-[#00000085]`}>
               Account Balance <span className="text-[16px]">(with 10% service charge)</span>
             </h3>
           </div>
           <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">
             ${seller?.availableBalance.toLocaleString()}
           </h5>
-          <div className="text-[#077f9c] text-end pr-3">
-          </div>
+          <div className="text-[#077f9c] text-end pr-3"></div>
         </div>
 
         <div className="w-full mb-4 800px:w-[30%] min-h-[20vh] bg-white shadow rounded p-3">
           <div className="flex items-center">
             <CiCircleList size={30} className="mr-2" fill="#00000085" />
-            <h3
-              className={`${styles.productTitle} !text-[18px] !font-[400] text-[#00000085]`}
-            >
+            <h3 className={`${styles.productTitle} !text-[18px] !font-[400] text-[#00000085]`}>
               All Orders
             </h3>
           </div>
@@ -137,14 +132,12 @@ const DashboardHero = () => {
         <div className="w-full mb-4 800px:w-[30%] min-h-[20vh] bg-white shadow rounded px-2 py-5">
           <div className="flex items-center">
             <RiProductHuntLine size={30} className="mr-2" fill="#00000085" />
-            <h3
-              className={`${styles.productTitle} !text-[18px] !font-[400] text-[#00000085]`}
-            >
+            <h3 className={`${styles.productTitle} !text-[18px] !font-[400] text-[#00000085]`}>
               All Products
             </h3>
           </div>
           <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">
-            {products && products.length.toLocaleString()}
+            {shopProducts && shopProducts.length.toLocaleString()}
           </h5>
           <div className="text-[#077f9c] text-end pr-3">
             <Link to="/shop/dashboard-products">

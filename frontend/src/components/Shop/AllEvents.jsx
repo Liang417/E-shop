@@ -6,10 +6,10 @@ import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import Loader from '../Layout/Loader';
-import { deleteEvent, getAllEvents, reset } from '../../redux/slice/eventSlice';
+import { deleteEvent, getShopEvents, reset } from '../../redux/slice/eventSlice';
 
 const AllEvents = () => {
-  const { events, isLoading, success, error, message } = useSelector((state) => state.event);
+  const { shopEvents, isLoading, success, error, message } = useSelector((state) => state.event);
   const { seller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
 
@@ -17,9 +17,9 @@ const AllEvents = () => {
     dispatch(deleteEvent(id));
   };
 
-  // for get all products
+  // for get all events
   useEffect(() => {
-    dispatch(getAllEvents(seller._id));
+    dispatch(getShopEvents(seller._id));
   }, [dispatch, seller._id]);
 
   // for error and success change
@@ -31,7 +31,7 @@ const AllEvents = () => {
     if (success) {
       toast.success(message);
       dispatch(reset());
-      dispatch(getAllEvents(seller._id));
+      dispatch(getShopEvents(seller._id));
     }
   }, [dispatch, error, success, message, seller._id]);
 
@@ -132,8 +132,8 @@ const AllEvents = () => {
   ];
 
   const rows = [];
-  events &&
-    events.forEach((item) => {
+  shopEvents &&
+    shopEvents.forEach((item) => {
       rows.push({
         id: item._id,
         name: item.name,

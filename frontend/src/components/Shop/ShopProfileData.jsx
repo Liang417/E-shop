@@ -3,6 +3,7 @@ import ProductCard from '../Product/ProductCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getAllProductsOfShop } from '../../redux/slice/productSlice';
+import { getShopEvents } from '../../redux/slice/eventSlice';
 import EventCard from '../Events/EventCard';
 import Ratings from '../Product/Rating';
 import { backendURL } from '../../apiConfig';
@@ -11,7 +12,7 @@ const ShopProfileData = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { shopProducts } = useSelector((state) => state.product);
-  const { events } = useSelector((state) => state.event);
+  const { shopEvents } = useSelector((state) => state.event);
 
   const [active, setActive] = useState(1);
 
@@ -19,7 +20,8 @@ const ShopProfileData = () => {
 
   useEffect(() => {
     dispatch(getAllProductsOfShop(id));
-  }, []);
+    dispatch(getShopEvents(id));
+  }, [id]);
 
   return (
     <div className="w-full">
@@ -63,14 +65,14 @@ const ShopProfileData = () => {
       {active === 2 && (
         <div className="w-full">
           <div>
-            {events &&
-              events.map((i, index) => (
+            {shopEvents &&
+              shopEvents.map((i, index) => (
                 <div className="mb-4 text-[0.8rem] md:text-[0.9rem] lg:text-[1rem]">
                   <EventCard data={i} key={index} />
                 </div>
               ))}
           </div>
-          {events && events.length === 0 && (
+          {shopEvents && shopEvents.length === 0 && (
             <h5 className="w-full text-center py-5 text-[18px]">No Events😮</h5>
           )}
         </div>

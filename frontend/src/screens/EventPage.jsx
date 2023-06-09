@@ -17,7 +17,7 @@ const EventPage = () => {
             <Header activeHeading={4} />
           </div>
           <div className="my-6">
-            <EventCard data={events && events[0]} />
+            {events && events.map((event, item) => <EventCard data={event} key={item} />)}
           </div>
         </div>
       )}

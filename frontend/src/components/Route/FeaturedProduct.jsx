@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from '../../styles/styles';
 import ProductCard from '../Product/ProductCard';
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
 const FeaturedProduct = () => {
-  const {products} = useSelector((state) => state.product);
+  const { products } = useSelector((state) => state.product);
   return (
-    <div>
+    <div className="mt-5">
       <div className={`${styles.section}`}>
         <div className={`${styles.heading}`}>
           <h1>Featured Products</h1>

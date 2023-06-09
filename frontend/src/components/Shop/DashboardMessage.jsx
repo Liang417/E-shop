@@ -10,7 +10,7 @@ import { AiOutlineSend } from 'react-icons/ai';
 import { TfiGallery } from 'react-icons/tfi';
 import styles from '../../styles/styles';
 import socketIO from 'socket.io-client';
-const socket = socketIO('http://ec2-18-141-164-122.ap-southeast-1.compute.amazonaws.com:1688', { transports: ['websocket'] });
+const socket = socketIO('http://lewisweb.shop:1688', { transports: ['websocket'] });
 
 const DashboardMessage = () => {
   const { seller } = useSelector((state) => state.seller);

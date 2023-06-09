@@ -9,7 +9,7 @@ import { TfiGallery } from 'react-icons/tfi';
 import socketIO from 'socket.io-client';
 import { apiURL, backendURL } from '../apiConfig';
 import styles from '../styles/styles';
-const socket = socketIO('http://ec2-18-141-164-122.ap-southeast-1.compute.amazonaws.com:1688', { transports: ['websocket'] });
+const socket = socketIO('http://lewisweb.shop:1688', { transports: ['websocket'] });
 
 const UserInboxPage = () => {
   const { user } = useSelector((state) => state.user);

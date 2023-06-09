@@ -31,10 +31,10 @@ const EventCard = ({ data }) => {
         <img src={`${backendURL}/${data?.images[0]}`} alt="" className="object-cover p-2" />
       </div>
       <div className="w-full lg:[w-50%] flex flex-col justify-center p-5">
-        <h2 className={`${styles.productTitle} text-center`}>{data?.name}</h2>
-        <p className="whitespace-pre-wrap">{data?.description}</p>
+        <h2 className={`${styles.productTitle}`}>{data?.name}</h2>
+        <p className="whitespace-pre-wrap py-2">{data?.description}</p>
         <div className="flex py-2 justify-between items-center">
-          <span className="font-[600] text-[22px] text-[#44a55e] ">{data?.sold_out}</span>
+          <span className="font-[600] text-[22px] text-[#44a55e] ">{data?.sold_out} sold</span>
           <div className="">
             <h5 className="font-[500] text-[20px] text-[#d55b35] line-through">
               {data?.originalPrice}$
