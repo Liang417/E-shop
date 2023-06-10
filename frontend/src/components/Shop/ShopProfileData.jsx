@@ -85,21 +85,21 @@ const ShopProfileData = () => {
               <div className="w-full border-b mb-2" key={index}>
                 <div className="flex items-center p-2">
                   <img
-                    src={`${backendURL}/${review.user.avatar}`}
+                    src={`${backendURL}/${review.user?.avatar}`}
                     alt=""
                     className="rounded-full w-[50px] h-[50px] mr-3"
                   />
                   <div>
                     <div className="flex justify-center">
-                      <h1 className="font-bold mr-3">{review.user.name}</h1>
-                      <Ratings rating={review.rating} />
+                      <h1 className="font-bold mr-3">{review.user?.name}</h1>
+                      <Ratings rating={review?.rating} />
                     </div>
-                    <p className="">{review.createdAt.slice(0, 10)}</p>
+                    <p className="">{review?.createdAt.slice(0, 10)}</p>
                   </div>
                 </div>
                 <div>
                   <p className="p-2 text-[0.85rem] md:text-[0.9rem] lg:text-[1rem]">
-                    {review.comment}
+                    {review?.comment}
                   </p>
                 </div>
               </div>

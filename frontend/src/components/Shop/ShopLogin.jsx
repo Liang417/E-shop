@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { apiURL } from '../../apiConfig';
 import { toast } from 'react-toastify';
-import { loadSeller } from '../../redux/slice/sellerSlice';
+import { loadSeller, reset } from '../../redux/slice/sellerSlice';
 import { useDispatch } from 'react-redux';
 
 const ShopLogin = () => {
@@ -22,6 +22,7 @@ const ShopLogin = () => {
       .then((res) => {
         toast.success('Login Success😎');
         dispatch(loadSeller());
+        dispatch(reset());
         navigate('/shop/dashboard');
       })
       .catch((err) => {

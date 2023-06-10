@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('dotenv').config({ path: '../.env' });
 const app = require('./app.js');
 
 // Handle uncaught exception
@@ -6,12 +7,6 @@ process.on('uncaughtException', (err) => {
   console.log(`Error ${err.message}`);
   console.log(`shutting down the server for handling uncaught exception`);
 });
-
-// Configuration
-if (process.env.NODE_ENV !== 'PRODUCTION') {
-  // Load environment variables from .env file in development mode
-  require('dotenv').config({ path: '../.env' });
-}
 
 // Connect to MongoDB
 mongoose

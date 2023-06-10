@@ -101,9 +101,9 @@ const deleteProduct = catchAsyncError(async (req, res, next) => {
 // Create review of product
 const createProductReview = catchAsyncError(async (req, res, next) => {
   try {
-    const { rating, comment, userId, productId, orderId } = req.body;
+    const { rating, comment, user, productId, orderId } = req.body;
     const newReview = {
-      userId,
+      user,
       rating,
       comment,
       productId,
