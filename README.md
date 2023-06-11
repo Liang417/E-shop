@@ -1,5 +1,7 @@
 # E-shop
 http://lewisweb.shop/
+## Short video introduction
+https://www.youtube.com/watch?v=cASDu8IBxoI&ab_channel=Ozaki978
 ## Features
 * User Authentication: Users can sign up, log in, and log out of the website to access personalized features and perform actions like placing orders, managing their profile, and viewing order history.
 * User Profile: Registered users can modify their personal information, such as name, address, and contact details, from their profile settings.
